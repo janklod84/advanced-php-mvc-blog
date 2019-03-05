@@ -42,7 +42,7 @@ class File
        */
   	  public function exists($file)
   	  {
-             return file_exists($file);
+          return file_exists($this->to($file));
   	  }
 
 
@@ -52,9 +52,9 @@ class File
        * @param string $file 
        * @return void
        */
-      public function require($file)
+      public function call($file)
       {
-           require $file;
+          require $this->to($file);
       }
 
 

@@ -5,7 +5,6 @@ namespace System\Http;
 /**
  * GET, POST, REQUEST, FILE, SERVER
  * @package \System\Http\Request
- * 
  * get,post,request,isPost, isGet, isHttps, isAjax
 */
 class Request
@@ -53,17 +52,18 @@ class Request
                  list($requestUri , $queryString) = explode('?' , $requestUri);
              }
 
-             # echo $requestUri;
-             # preg_replace('#^' . $script .'#', '', $requestUri); no work!!!
-             # preg_replace('#^' . $script .'/#', '', $requestUri); work!!!
-
-             $this->url = preg_replace('/^' . $script .'//', '', $requestUri);
-
+             /*
+               echo $requestUri;
+               preg_replace('#^' . $script .'#', '', $requestUri); no work!!!
+               preg_replace('#^' . $script .'/#', '', $requestUri); work!!!
+               Use this if under script will not work
+               $this->url = preg_replace('/^' . $script .'//', '', $requestUri);
+               $protocol =  $this->protocol();
+               $this->baseUrl = $protocol . $this->server('HTTP_HOST') . '/';
+             */
              # pre($_SERVER);
-             # $this->baseUrl = $this->server('REQUEST_SCHEME') . '://' . $this->server('HTTP_HOST') . $script;
-            
-             $protocol =  $this->protocol();
-             echo $this->baseUrl = $protocol . $this->server('HTTP_HOST') . '/';
+             $this->url = preg_replace('#^' . $script .'#', '', $requestUri);
+             $this->baseUrl = $this->server('REQUEST_SCHEME') . '://' . $this->server('HTTP_HOST') . $script;          
         }
 
 

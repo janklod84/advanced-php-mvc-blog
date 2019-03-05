@@ -4,6 +4,7 @@
 |          MVC FRAMEWORK APLLICATION
 |---------------------------------------------
 */
+# http://localhost/blog/
 
 require __DIR__.'/vendor/System/Application.php';
 require __DIR__.'/vendor/System/File.php';
@@ -13,7 +14,7 @@ use System\Application;
 
 
 $file = new File(__DIR__);
-$app  = new Application($file);
+$app  = Application::getInstance($file);
 
 $app->run();
 

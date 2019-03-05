@@ -12,40 +12,74 @@ class Application
        * 
        * @var array
       */
-	  private $container = [];
+	    private $container = [];
 
 
-	  /**
-	   * Application constructor
-	   * 
-	   * @param \System\File $file
-	   */
-	  public function __construct(File $file)
-	  {
-	  	   # Share file in container
-           $this->share('file', $file);
-
-           # Autoloading classes
-           $this->registerClasses(); 
-
-           # Load Helpers
-           $this->loadHelpers();
-
-	  }
+	    /**
+       * Application Object
+       * 
+       * @var \Sytem\Application
+      */
+      private static $instance;
 
 
-	  /**
+  	  /**
+  	   * Application constructor
+  	   * 
+  	   * @param \System\File $file
+  	   */
+  	  private function __construct(File $file)
+  	  {
+  	  	   # Share file in container
+             $this->share('file', $file);
+
+             # Autoloading classes
+             $this->registerClasses(); 
+
+             # Load Helpers
+             $this->loadHelpers();
+
+  	  }
+
+
+	    /**
+        * Get Application Instance
+        *
+        * @param \System\File $file
+        * @return \System\Application
+      */
+      public static function getInstance($file = null)
+      {
+          if(is_null(static::$instance))
+          {
+              static::$instance = new static($file);
+          }
+          return static::$instance;
+      }
+        
+
+
+	    /**
        * Run the Application
        *
+       * $route = $this->route->getProperRoute(); 
+       * pre($route);
+       * 
        * @return void
        */
        public function run()
        {
-           # Start session
-       	   $this->session->start();
+             # Start session
+         	   $this->session->start();
 
-       	   # Prepare URL
-       	   $this->request->prepareUrl();
+         	   # Prepare URL
+         	   $this->request->prepareUrl();
+
+         	   # require file App/routes.php [or rename by App/index.php]
+             $this->file->call('App/routes.php');
+
+             # Get : Controller \ Method \ Arguments
+             list($controller, $method, $arguments) = $this->route->getProperRoute();
        }
 
 
@@ -70,19 +104,19 @@ class Application
 	  {
 	  	   if (strpos($class, 'App') === 0)
 	  	   {
-	  	   	   $file = $this->file->to($class.'.php');
+	  	   	   $file = $class.'.php';
 
 	  	   }else{
                
                 # Get the class from vendor
                 # Exemple : $this->file->toVendor('System\\Test.php')
-                $file = $this->file->toVendor($class.'.php');    
+                $file = 'vendor/'. $class.'.php';    
 	  	   }
 
 	  	   # Require file if it's exist
 	  	   if($this->file->exists($file))
    	       {
-                $this->file->require($file);
+                $this->file->call($file);
    	       }
 	  }
 
@@ -94,7 +128,7 @@ class Application
 	  */
 	  public function loadHelpers()
 	  {
-	  	   $this->file->require($this->file->toVendor('helpers.php'));
+	  	   $this->file->call('vendor/helpers.php');
 	  }
 
 
@@ -200,7 +234,7 @@ class Application
                 'request'    =>  'System\\Http\\Request',
                 'response'    => 'System\\Http\\Response',
                 'session'    =>  'System\\Session',
-                //'route'      =>  'System\\Route',
+                'route'      =>  'System\\Route',
                 'cookie'     =>  'System\\Cookie',
                 'load'       =>  'System\\Loader',
                 'html'       =>  'System\\Html',
