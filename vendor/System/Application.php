@@ -43,6 +43,9 @@ class Application
        {
            # Start session
        	   $this->session->start();
+
+       	   # Prepare URL
+       	   $this->request->prepareUrl();
        }
 
 
@@ -227,5 +230,5 @@ class Application
 	  }
 
 	   
-
+      
 }
