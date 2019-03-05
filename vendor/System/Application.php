@@ -31,9 +31,18 @@ class Application
            # Load Helpers
            $this->loadHelpers();
 
-           pre($this->file);
-
 	  }
+
+
+	  /**
+       * Run the Application
+       *
+       * @return void
+       */
+       public function run()
+       {
+
+       }
 
 
 	  /**
@@ -92,13 +101,43 @@ class Application
         * @return mixed
       */
 	  public function get($key)
+	  { 
+	  	  # If key not in container
+	  	  if(! $this->isSharing($key))
+	  	  {
+	  	  	  # if key in core alias
+	  	  	  if($this->isCoreAlias($key) )
+	  	  	  {
+	  	  	  	   # we'll bind/share this key and create new core object
+	  	  	  	   $this->share($key, $this->createNewCoreObject($key));
+
+	  	  	  }else{ # if key isn't in core alias, we'll generate error msg
+                    
+                  die('<b>'. $key .'</b> not found in application container');
+	  	  	  }
+	  	  }
+
+	  	  # $this->isSharing($key) ? $this->container[$key] : null;
+          return $this->container[$key];
+	  }
+
+
+	  /**
+	   * Determine if the given key is shared through Application
+	   * isSharing($key) ==> has($key)
+	   *
+	   * @param string $key
+	   * @return bool
+	  */
+	  public function isSharing($key): bool
 	  {
-          return isset($this->container[$key]) ? $this->container[$key] : null;
+           return isset($this->container[$key]);
 	  }
       
 
 	  /**
 	   * Share the given key|value Through Application
+	   *  bind($key, $value)
 	   * 
 	   * @param string $key
 	   * @param mixed $value
@@ -111,6 +150,65 @@ class Application
 
 
 	  /**
+       * Determine if the given key is an alias to core class [ coreClasses() ]
+       *
+       * @param string $alias
+       * @return bool
+       */
+       private function isCoreAlias($alias)
+       {
+            $coreClasses = $this->coreClasses();
+            return  isset($coreClasses[$alias]);
+       }
+
+
+       /** 
+       * Create new object for the core class based on the given alias
+       *
+       * @param string $alias
+       * @return object
+       */
+       private function createNewCoreObject($alias)
+       {
+            $coreClasses = $this->coreClasses();
+            $object = $coreClasses[$alias];
+            return new $object($this);
+       }
+
+
+	   /**
+       * Get All Core Classes with its aliases
+       *
+       * $this->request  = new System\Http\Request()
+       * $this->response = new System\Http\Response()
+       * ....
+       * ....
+       * $this->app = new Application(File $file)
+       * $this->app->request  = new System\Http\Request()
+       * $this->app->response = new System\Http\Response()
+       * 
+       * @return array
+       */
+
+       private function coreClasses(){
+
+       	   return [
+                'request'    =>  'System\\Http\\Request',
+                'response'    => 'System\\Http\\Response',
+                'session'    =>  'System\\Session',
+                //'route'      =>  'System\\Route',
+                'cookie'     =>  'System\\Cookie',
+                'load'       =>  'System\\Loader',
+                'html'       =>  'System\\Html',
+                'db'         =>  'System\\Database',
+                'view'       =>  'System\\View\\ViewFactory',
+                //'url'        =>  'System\\Url',
+                //'validator'  =>  'System\\Validation',
+       	   ];
+       }
+
+
+      /**
 	   * Get shared value dynamically
 	   * Represente for exemple 
 	   * [$this->file = new \System\File(__DIR__)]
@@ -126,6 +224,7 @@ class Application
 	  {
 	  	  return $this->get($key);
 	  }
+
 	   
 
 }

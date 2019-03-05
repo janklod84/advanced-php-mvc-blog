@@ -15,6 +15,6 @@ use System\Application;
 $file = new File(__DIR__);
 $app  = new Application($file);
 
+$app->run();
 
-// new \System\Test();
-new App\Controllers\Users\Users();
+
