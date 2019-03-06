@@ -80,6 +80,10 @@ class Application
 
              # Get : Controller \ Method \ Arguments
              list($controller, $method, $arguments) = $this->route->getProperRoute();
+             
+
+             # Call action 
+             $this->load->action($controller, $method, $arguments);
        }
 
 

@@ -25,8 +25,12 @@ $app = Application::getInstance();
 |---------------------------------------------
 */
 
-# we can write 'Main\Home' or 'Main/Home'
-$app->route->add('/', 'Main/Home', 'POST');
+# uri: /blog/
+# App\Controllers\HomeController extends Controller
+# par default la methode est index , ecrire Home revient a Home@index
+$app->route->add('/', 'Home');
+
+
 
 
 # /blog/posts/my-title-post/65435453 
