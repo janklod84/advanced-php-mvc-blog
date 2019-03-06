@@ -69,6 +69,8 @@ class Application
        */
        public function run()
        {
+             // pre($_SERVER);
+             
              # Start session
          	   $this->session->start();
 
@@ -80,118 +82,122 @@ class Application
 
              # Get : Controller \ Method \ Arguments
              list($controller, $method, $arguments) = $this->route->getProperRoute();
-             
 
-             # Call action 
-             $this->load->action($controller, $method, $arguments);
+
+             # Get content [ object convert to string ]
+             $output =  (string) $this->load->action($controller, $method, $arguments);
+        
+             $this->response->setOutput($output);
+             
+             $this->response->send();
        }
 
 
-	  /**
-	   * Register classes in spl_autoload_register
-	   * 
-	   * @return void
-	   */
-	  public function registerClasses()
-	  {
-           spl_autoload_register([$this, 'load']);
-	  }
+  	  /**
+  	   * Register classes in spl_autoload_register
+  	   * 
+  	   * @return void
+  	   */
+  	  public function registerClasses()
+  	  {
+             spl_autoload_register([$this, 'load']);
+  	  }
 
 
-	  /**
-	   * Load Class through autoloading
-	   * 
-	   * @param string $class
-	   * @return void
-	   */
-	  public function load($class)
-	  {
-	  	   if (strpos($class, 'App') === 0)
-	  	   {
-	  	   	   $file = $class.'.php';
+  	  /**
+  	   * Load Class through autoloading
+  	   * 
+  	   * @param string $class
+  	   * @return void
+  	   */
+  	  public function load($class)
+  	  {
+  	  	   if (strpos($class, 'App') === 0)
+  	  	   {
+  	  	   	   $file = $class.'.php';
 
-	  	   }else{
-               
-                # Get the class from vendor
-                # Exemple : $this->file->toVendor('System\\Test.php')
-                $file = 'vendor/'. $class.'.php';    
-	  	   }
+  	  	   }else{
+                 
+                  # Get the class from vendor
+                  # Exemple : $this->file->toVendor('System\\Test.php')
+                  $file = 'vendor/'. $class.'.php';    
+  	  	   }
 
-	  	   # Require file if it's exist
-	  	   if($this->file->exists($file))
+  	  	   # Require file if it's exist
+  	  	   if($this->file->exists($file))
    	       {
                 $this->file->call($file);
    	       }
-	  }
+  	  }
 
-	  /**
-	   * Load Helpers File
-	   * 
-	   * 
-	   * @return void
-	  */
-	  public function loadHelpers()
-	  {
-	  	   $this->file->call('vendor/helpers.php');
-	  }
-
-
-	  /**
-        * Get Shared Value
-        *
-        * @param string $key
-        * @return mixed
-      */
-	  public function get($key)
-	  { 
-	  	  # If key not in container
-	  	  if(! $this->isSharing($key))
-	  	  {
-	  	  	  # if key in core alias
-	  	  	  if($this->isCoreAlias($key) )
-	  	  	  {
-	  	  	  	   # we'll bind/share this key and create new core object
-	  	  	  	   $this->share($key, $this->createNewCoreObject($key));
-
-	  	  	  }else{ # if key isn't in core alias, we'll generate error msg
-                    
-                  die('<b>'. $key .'</b> not found in application container');
-	  	  	  }
-	  	  }
-
-	  	  # $this->isSharing($key) ? $this->container[$key] : null;
-          return $this->container[$key];
-	  }
+  	  /**
+  	   * Load Helpers File
+  	   * 
+  	   * 
+  	   * @return void
+  	  */
+  	  public function loadHelpers()
+  	  {
+  	  	   $this->file->call('vendor/helpers.php');
+  	  }
 
 
-	  /**
-	   * Determine if the given key is shared through Application
-	   * isSharing($key) ==> has($key)
-	   *
-	   * @param string $key
-	   * @return bool
-	  */
-	  public function isSharing($key): bool
-	  {
-           return isset($this->container[$key]);
-	  }
-      
+  	  /**
+          * Get Shared Value
+          *
+          * @param string $key
+          * @return mixed
+        */
+  	  public function get($key)
+  	  { 
+  	  	  # If key not in container
+  	  	  if(! $this->isSharing($key))
+  	  	  {
+  	  	  	  # if key in core alias
+  	  	  	  if($this->isCoreAlias($key) )
+  	  	  	  {
+  	  	  	  	   # we'll bind/share this key and create new core object
+  	  	  	  	   $this->share($key, $this->createNewCoreObject($key));
 
-	  /**
-	   * Share the given key|value Through Application
-	   *  bind($key, $value)
-	   * 
-	   * @param string $key
-	   * @param mixed $value
-	   * @return mixed
-	   */
-	  public function share($key, $value)
-	  {
-	  	   $this->container[$key] = $value;
-	  }
+  	  	  	  }else{ # if key isn't in core alias, we'll generate error msg
+                      
+                    die('<b>'. $key .'</b> not found in application container');
+  	  	  	  }
+  	  	  }
+
+  	  	  # $this->isSharing($key) ? $this->container[$key] : null;
+            return $this->container[$key];
+  	  }
 
 
-	  /**
+  	  /**
+  	   * Determine if the given key is shared through Application
+  	   * isSharing($key) ==> has($key)
+  	   *
+  	   * @param string $key
+  	   * @return bool
+  	  */
+  	  public function isSharing($key): bool
+  	  {
+             return isset($this->container[$key]);
+  	  }
+        
+
+  	  /**
+  	   * Share the given key|value Through Application
+  	   *  bind($key, $value)
+  	   * 
+  	   * @param string $key
+  	   * @param mixed $value
+  	   * @return mixed
+  	   */
+  	  public function share($key, $value)
+  	  {
+  	  	   $this->container[$key] = $value;
+  	  }
+
+
+	   /**
        * Determine if the given key is an alias to core class [ coreClasses() ]
        *
        * @param string $alias

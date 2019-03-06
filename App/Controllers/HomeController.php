@@ -9,8 +9,9 @@ class HomeController extends Controller
 
   	 public function index()
   	 {
-           // echo __METHOD__; 
-  	 	     $this->load->controller('Header')->index();
+           $this->response->setHeader('name', 'Brown');
+           $data['my_name'] = 'Brown'; 
+           return $this->view->render('home', $data);
   	 }
 }
 
@@ -21,6 +22,8 @@ class HomeController extends Controller
   echo $this->request->url();
   $this->session->set('name', 'Jean');
   echo $this->session->get('name');
-
+  echo __METHOD__; 
+  $this->load->controller('Header')->index();
+           
   $this->load->controller('Common/Header')->index();
  */
