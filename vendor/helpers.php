@@ -37,3 +37,20 @@ if(! function_exists('array_get'))
 	 }
 
 }
+
+
+if(! function_exists('_e'))
+{
+
+	/**
+	 * Escape the given value
+	 *
+	 * @param string $value
+	 * @return string
+	 */
+
+	 function _e($value)
+	 {
+         return htmlspecialchars($value);
+	 }
+}
