@@ -5,6 +5,8 @@
 |---------------------------------------------
 */
 return [
-
-
+   'server' => 'localhost',
+   'dbname' => 'blogsystem',
+   'dbuser' => 'root',
+   'dbpass' => ''
 ];
