@@ -45,7 +45,7 @@ class Loader
       */
       public function __construct(Application $app)
       {
-              $this->app = $app;
+            $this->app = $app;
       }
         
       /**
@@ -57,7 +57,6 @@ class Loader
        * @param string $arguments
        * @return mixed
       */
- 
       public function action($controller, $method , array $arguments = [])
       {
               $object = $this->controller($controller);
@@ -72,15 +71,15 @@ class Loader
       */
       public function controller($controller)
       {
-                 $controller = $this->getControllerName($controller);   
-                 // echo $controller;
-      	         if( ! $this->hasController($controller))
-                 {
-      	         	   $this->addController($controller);
+             $controller = $this->getControllerName($controller);   
+             // echo $controller;
+  	         if( ! $this->hasController($controller))
+             {
+  	         	   $this->addController($controller);
 
-      	         }
+  	         }
 
-      	         return $this->getController($controller);
+  	         return $this->getController($controller);
       }
 
 
@@ -146,13 +145,11 @@ class Loader
          */
         public function model($model)
         {
-
              $model = $this->getModelName($model);   
 
-             if( ! $this->hasModel($model)){
-
-               $this->addModel($model);
-
+             if( ! $this->hasModel($model))
+             {
+                $this->addModel($model);
              }
 
              return $this->getModel($model);
@@ -165,8 +162,8 @@ class Loader
          * @param string $model
          * @return bool
          */
-        private function hasModel($model){
-
+        private function hasModel($model)
+        {
             return array_key_exists($model, $this->models);
         }
 
@@ -216,8 +213,6 @@ class Loader
                 return str_replace('/', '\\', $model);
          }
 
-
-         
 }
 
 

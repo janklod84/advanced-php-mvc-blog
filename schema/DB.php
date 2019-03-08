@@ -45,3 +45,7 @@ $users =  $this->db->select('*')
                             ->where('id > ? AND id < ?', 1, 4)
                             ->fetchAll();
          
+
+pre($this->db->where('id != ?', 2)->fetchAll('users'));
+echo $this->db->rows();
+pre($this->db->fetchAll('users'));
