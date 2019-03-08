@@ -9,7 +9,8 @@ class HomeController extends Controller
 
   	 public function index()
   	 {
-          $this->db->data('first_name', 'Jean')
-                   ->update('users');
+          pre($this->db->where('id != ?', 2)->fetchAll('users'));
+          echo $this->db->rows();
+          pre($this->db->fetchAll('users'));
   	 }
 }

@@ -30,3 +30,18 @@ $user = $this->db->query('SELECT * FROM users WHERE id = ?', 4)->fetch();
 
 // pre($user);
 echo $user->image;
+
+
+$user =  $this->db
+              ->select('*')
+              ->from('users')
+              ->orderBy('id')
+              ->fetch();
+
+
+
+$users =  $this->db->select('*')
+                            ->from('users')
+                            ->where('id > ? AND id < ?', 1, 4)
+                            ->fetchAll();
+         
