@@ -238,8 +238,8 @@ class Application
        * @return array
        */
 
-       private function coreClasses(){
-
+       private function coreClasses()
+       {
        	   return [
                 'request'    =>  'System\\Http\\Request',
                 'response'    => 'System\\Http\\Response',
@@ -250,7 +250,7 @@ class Application
                 'html'       =>  'System\\Html',
                 'db'         =>  'System\\Database',
                 'view'       =>  'System\\View\\ViewFactory',
-                //'url'        =>  'System\\Url',
+                'url'        =>  'System\\Url',
                 //'validator'  =>  'System\\Validation',
        	   ];
        }

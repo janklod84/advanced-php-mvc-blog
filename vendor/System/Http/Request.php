@@ -65,7 +65,7 @@ class Request
              $this->url = preg_replace('#^' . $script .'#', '', $requestUri);
 
              # here we can verify for exemple if it valid URL without filter_var()
-             $this->baseUrl = $this->server('REQUEST_SCHEME') . '://' . $this->server('HTTP_HOST') . $script;          
+             $this->baseUrl = $this->server('REQUEST_SCHEME') . '://' . $this->server('HTTP_HOST') . $script . '/';          
         }
 
 

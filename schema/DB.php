@@ -49,3 +49,9 @@ $users =  $this->db->select('*')
 pre($this->db->where('id != ?', 2)->fetchAll('users'));
 echo $this->db->rows();
 pre($this->db->fetchAll('users'));
+
+
+$user = $this->load->model('Users');
+         // pre($user->all());
+
+pre($user->get(1));

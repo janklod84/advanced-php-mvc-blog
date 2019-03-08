@@ -9,9 +9,6 @@ class HomeController extends Controller
 
   	 public function index()
   	 {
-         $user = $this->load->model('Users');
-         // pre($user->all());
-
-         pre($user->get(1));
+         echo assets('images/logo.png');
   	 }
 }
