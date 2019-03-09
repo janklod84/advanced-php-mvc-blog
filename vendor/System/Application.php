@@ -1,6 +1,7 @@
 <?php 
 namespace System;
 
+
 /**
  * @package \System\Application 
 */ 

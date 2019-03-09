@@ -15,15 +15,15 @@ class LoginController extends Controller
 	     */
 	  	 public function index()
 	  	 {
-	  	 	   $loginModel = $this->load->model('Login');
+	  	 	   $loginModel = $this->load->model('Login'); 
 
-	           if($loginModel->isLogged())
+	           if($loginModel->isLogged()) 
 	           { 
            	       return $this->url->redirectTo('/admin');
 	           }
 
 	  	 	   $data['errors'] = $this->errors;
-	  	 	   
+
 	           return $this->view->render('admin/users/login', $data);
 	  	 }
 
@@ -35,6 +35,8 @@ class LoginController extends Controller
 	     */
 	     public function submit()
 	     {
+	     	   $json = [];
+
 	           if($this->isValid())
 	           {
 	           	    $loginModel = $this->load->model('Login');
@@ -51,12 +53,15 @@ class LoginController extends Controller
                          $this->session->set('login', $loggedInUser->code);
                     }
 
-                    return $this->url->redirectTo('/admin');
+	                $json['success']  = 'Welcome Back <b>' . $loggedInUser->first_name . '</b>';
+	                $json['redirect'] = $this->url->link('/admin');
 
 	           }else{
 
-	           	   return $this->index(); # /admin/login
+	          	    $json['errors'] = implode('<br>', $this->errors);
 	           }
+
+	           return $this->json($json); // Method from Controller class
 	     }
 
 

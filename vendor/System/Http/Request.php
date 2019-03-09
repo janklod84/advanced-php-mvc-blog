@@ -44,41 +44,26 @@ class Request
              $script = dirname($this->server('SCRIPT_NAME')); 
              $requestUri = $this->server('REQUEST_URI'); 
              
-             # pre(explode('?' , $requestUri));
-             
-             # si (?) est definit comme suit /blog/path/uri?id=3
              if(strpos($requestUri, '?') !== false)
              {
                  list($requestUri , $queryString) = explode('?' , $requestUri);
              }
 
-             /*
-               echo $requestUri;
-               preg_replace('#^' . $script .'#', '', $requestUri); no work!!!
-               preg_replace('#^' . $script .'/#', '', $requestUri); work!!!
-               Use this if under script will not work
-               $this->url = preg_replace('/^' . $script .'//', '', $requestUri);
-               $protocol =  $this->protocol();
-               $this->baseUrl = $protocol . $this->server('HTTP_HOST') . '/';
-             */
-             # pre($_SERVER);
-             $this->url = preg_replace('#^' . $script .'#', '', $requestUri);
-
-             # here we can verify for exemple if it valid URL without filter_var()
+             $this->url = rtrim(preg_replace('#^' . $script .'#', '', $requestUri), '/');
+            
              $this->baseUrl = $this->server('REQUEST_SCHEME') . '://' . $this->server('HTTP_HOST') . $script . '/';          
         }
 
 
         public function isHttps()
         {
-           // $protocol = isset($_SERVER["HTTPS"]) ? 'https' : 'http';
-           return isset($_SERVER["HTTPS"]);
+            return isset($_SERVER["HTTPS"]);
         }
 
 
         public function protocol()
         {
-           return $this->isHttps() ? 'https://' : 'http://';
+            return $this->isHttps() ? 'https://' : 'http://';
         }
 
 

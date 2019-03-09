@@ -162,5 +162,5 @@ $app->route->add('/logout' , 'Logout');
 |          NOT FOUND ROUTES / PAGES
 |---------------------------------------------
 */
-$app->route->add('/404', 'Error/NotFound');
+$app->route->add('/404', 'NotFound');
 $app->route->notFound('/404');

@@ -108,6 +108,9 @@ class Route
                       return [$controller, $method, $arguments];
                  }
             }
+
+            // redirect to not found page ( si page introuvable)
+            return $this->app->url->redirectTo($this->notFound); // 404
        }
 
        
