@@ -4,7 +4,8 @@
 |          WHITE LIST ROUTES
 |
 |          add(uri, namespace)
-|          Ex : $app->route->add('/admin/login', 'Admin\\Login');
+|          Ex : $app->route->add('/admin/login', 'Admin\Login');
+|          Ex : $app->route->add('/admin/login', 'Admin/LoginController');
 |---------------------------------------------
 */
 
@@ -26,7 +27,7 @@ $app->route->add('/', 'Home');
 
 /*
 |---------------------------------------------
-|          ADMIN LOGIN ROUTES
+|          ADMIN LOGIN ROUTES http://localhost/blog/admin/login
 |---------------------------------------------
 */
 

@@ -160,7 +160,7 @@ class Database
 
             try 
             {
-            	  $dsn = sprintf(self::MSK_DSN, $server, $dbname);
+            	    $dsn = sprintf(self::MSK_DSN, $server, $dbname);
                   static::$connection = new PDO($dsn , $dbuser, $dbpass);
 
                   static::$connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
@@ -252,7 +252,7 @@ class Database
          * @return \stdClass | null
          */
          public function fetch($table = null)
-		 {
+		     {
 
               if($table)
               {
@@ -380,7 +380,8 @@ class Database
          * @param string $table
          * @return $this
          */
-         public function  delete($table = null){
+         public function  delete($table = null)
+         {
 
              if($table)
              {
@@ -439,7 +440,6 @@ class Database
          */
          public function insert($table = null)
          {
-
              if($table)
              {
                 $this->table($table);
