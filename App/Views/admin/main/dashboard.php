@@ -28,9 +28,9 @@
 				 	<label for="">Full Name</label>
 				    <input type="text" name="fullname" class="form-control">
 				 </div>
-				<!--  <div class="form-group">
+				 <div class="form-group">
 				 	 <input type="file" name="image" class="form-control">
-				 </div> -->
+				 </div>
 				 <button class="btn btn-primary">Send</button>
 			</form>
 	 	 </div> <!-- end col-md-4 -->
@@ -52,15 +52,15 @@
            type: 'post',
            data: sentData,
            dataType: 'json',
-           success: function(r){
-           	   $('body').append(r.name);
+           success: function(response){
+           	   $('body').append(response.name);
            },
            cache: false,
            processData: false,
            contentType: false,
         });
   });
-  */
+*/
 </script>
 </body>
 </html>

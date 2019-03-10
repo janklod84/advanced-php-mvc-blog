@@ -11,38 +11,36 @@ class  DashboardController extends Controller
      {
            return $this->view->render('admin/main/dashboard');
 	   }
+     
 
+     /**
+      * $file->moveTo($this->file->to('public/images')); (nom fichier genere)
+      * $file->moveTo($this->file->to('public/images') , 'newImage'); (nom fichier ecrit manuellement)
+     */
 	   public function submit()
      {
          // pre($_SESSION);
          //$json['name'] = $this->request->post('fullname');
          //return $this->json($json);
           
-          // $userId = 1;
-
 	   	    $this->validator->required('email')
 	   	                   ->email('email')
                          ->unique('email', ['users' , 'email']);
-	   	                   // ->unique('email', ['users' , 'email', 'id', $userId]);
 
            $this->validator->required('password')
                            ->minLen('password', 8);
 
            $this->validator->match('password', 'confirm_password');
           
-           //$file = $this->request->file('image'); // UploadedFile Object
+           $file = $this->request->file('image'); //> UploadedFile Object
            
-           //if($file->isImage())
-           //{
-           	   //$file->moveTo($this->file->to('public/images'));
-           	 
-           //}
+           if($file->isImage())
+           {
+           	    $file->moveTo($this->file->to('public/images'));
+           }
            
-           pre($this->validator->getMessages());
 	   	   
 	   }
 
 }
 
-// echo $file->moveTo($this->file->to('public/images')); (nom fichier genere)
-// echo $file->moveTo($this->file->to('public/images') , 'newImage'); (nom fichier ecrit manuellement)

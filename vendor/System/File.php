@@ -1,6 +1,8 @@
 <?php 
 namespace System;
 
+
+
 /**
  * @package \System\File
 */ 
@@ -67,6 +69,18 @@ class File
       public function toVendor($path)
       {
           return $this->to('vendor/'. $path);
+      }
+
+
+      /**
+      * Generate full path to the given path in public folder
+      *
+      * @param string $path
+      * @return string
+     */
+      public function toPublic($path)
+      {
+          return $this->to('public/' . $path);
       }
 
 

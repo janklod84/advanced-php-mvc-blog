@@ -25,6 +25,14 @@ class Request
         */
         private $baseUrl;
 
+
+        /**
+        * Uploaded Files Container
+        *
+        * @var array
+        */
+        private $files = [];
+
       
         /**
           * Prepare url
@@ -50,6 +58,11 @@ class Request
              }
 
              $this->url = rtrim(preg_replace('#^' . $script .'#', '', $requestUri), '/');
+
+             if(! $this->url)
+             {
+                 $this->url = '/';
+             }
             
              $this->baseUrl = $this->server('REQUEST_SCHEME') . '://' . $this->server('HTTP_HOST') . $script . '/';          
         }
@@ -90,6 +103,29 @@ class Request
        public function post($key, $default = null)
        {
             return array_get($_POST, $key , $default);
+       }
+
+
+       /**
+        * Get the uploaded file object for the given input
+        *
+        * @param string $input
+        * @return \System\Http\UploadedFile
+        */
+       public function file($input)
+       {
+
+           if(isset($this->files[$input]))
+           {
+                return $this->files[$input];
+           }
+
+           $uploadedFile = new UploadedFile($input);
+
+           $this->files[$input] = $uploadedFile;
+
+           return $this->files[$input];
+
        }
      
       

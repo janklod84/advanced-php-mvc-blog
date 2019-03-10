@@ -26,11 +26,29 @@ class Route
 
 
       /**
+       * Current Route
+       *
+       *
+       * @var array
+      */
+      private $current = [];
+
+
+      /**
        * Not Found Url
        *
        * @var string
       */
       private $notFound;
+
+      
+      /**
+       * Calls Container
+       *
+       * @var array
+      */
+      private $calls = [];
+
 
 
       /**
