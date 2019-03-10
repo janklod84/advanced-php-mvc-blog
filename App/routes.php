@@ -56,6 +56,8 @@ $app->share('adminLayout', function($app){
 
 $app->route->add('/admin' , 'Admin/Dashboard');
 $app->route->add('/admin/dashboard' , 'Admin/Dashboard');
+$app->route->add('/admin/submit' , 'Admin/Dashboard@submit', 'POST');
+
 
 /*
 |---------------------------------------------
