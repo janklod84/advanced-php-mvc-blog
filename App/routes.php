@@ -37,6 +37,19 @@ $app->route->add('/admin/login/submit', 'Admin/Login@submit', 'POST');
 
 /*
 |---------------------------------------------
+|          ADMIN LAYOUT
+|---------------------------------------------
+*/
+
+$app->share('adminLayout', function($app){
+
+    return $app->load->controller('Admin/Common/Layout');
+    
+});
+
+
+/*
+|---------------------------------------------
 |          ADMIN DASHBOARD ROUTES
 |---------------------------------------------
 */
@@ -105,7 +118,7 @@ $app->route->add('/admin/comments/delete/:id', 'Admin/Comments@delete');
 */
 
 $app->route->add('/admin/categories', 'Admin/Categories');
-$app->route->add('/admin/categories/add', 'Admin/Categories@add');
+$app->route->add('/admin/categories/add', 'Admin/Categories@add', 'POST');
 $app->route->add('/admin/categories/submit', 'Admin/Categories@submit', 'POST');
 $app->route->add('/admin/categories/edit/:id', 'Admin/Categories@edit');
 $app->route->add('/admin/categories/save/:id', 'Admin/Categories@save', 'POST');

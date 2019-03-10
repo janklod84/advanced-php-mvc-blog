@@ -2,6 +2,9 @@
 namespace System;
 
 
+use Closure;
+
+
 /**
  * @package \System\Application 
 */ 
@@ -194,6 +197,11 @@ class Application
   	   */
   	  public function share($key, $value)
   	  {
+           if($value instanceof Closure)
+           {
+                $value = call_user_func($value, $this);
+           }
+
   	  	   $this->container[$key] = $value;
   	  }
 

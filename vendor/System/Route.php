@@ -96,7 +96,7 @@ class Route
             foreach ($this->routes as $route)
             {
                  // pre($route);
-                 if($this->isMatching($route['pattern']))
+                 if($this->isMatching($route['pattern']) AND $this->isMatchingMethod($route['method']))
                  {
                       // pre($route['pattern']);
                       $arguments = $this->getArgumentsFrom($route['pattern']);
