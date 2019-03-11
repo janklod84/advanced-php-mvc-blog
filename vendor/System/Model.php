@@ -75,12 +75,12 @@ abstract class Model
          * @param string $key
          * @return bool
         */
-         //public function exists($value, $key = 'id')
-         //{
-        	   //return (bool) $this->select($key)
-        	                      //->where($key . '=?', $value)
-        	                     // ->fetch($this->table);
-         //}
+         public function exists($value, $key = 'id')
+         {
+        	   return (bool) $this->select($key)
+        	                      ->where($key . '=?', $value)
+        	                      ->fetch($this->table);
+         }
 
         /**
          * Delete Record By Id
@@ -88,11 +88,11 @@ abstract class Model
          * @param int $id
          * @return void
         */
-        //public function delete($id)
-        //{
-            //return  $this->where('id = ?', $id)
-                         //->delete($this->table);
-        //}
+        public function delete($id)
+        {
+            return  $this->where('id = ?', $id)
+                         ->delete($this->table);
+        }
 
 
     	  /**

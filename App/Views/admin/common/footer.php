@@ -359,26 +359,7 @@
                }
 
         });
-
-        /*
-        if($(modalTarget).length > 0){
-
-            $(modalTarget).modal('show');
-
-        }else{
-
-             $.ajax({
-               url: url,
-               type: 'POST',
-               success: function (html){
-
-                  $('body').append(html);
-                  $(modalTarget).modal('show');
-               }
-
-             });
-        }
-      */
+        
         return false;
 
    });

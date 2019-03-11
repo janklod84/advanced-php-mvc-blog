@@ -40,10 +40,9 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 <script>
-	/*
   $('form').on('submit' , function(e){
         e.preventDefault();
-         
+
         var form = $(this);
         var sentData = new FormData(form[0]);
 
@@ -52,15 +51,16 @@
            type: 'post',
            data: sentData,
            dataType: 'json',
-           success: function(response){
-           	   $('body').append(response.name);
+           success: function(result){ // result is type object
+           	   // $('body').append(result);
+           	   $('body').append(result.name);
            },
            cache: false,
            processData: false,
            contentType: false,
         });
   });
-*/
+
 </script>
 </body>
 </html>
@@ -69,4 +69,6 @@
 <script src="https://code.jquery.com/jquery-3.3.1.js"
 integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
 crossorigin="anonymous"></script>
+
+<script src="https://code.jquery.com/jquery-2.2.4.js"></script>
 -->

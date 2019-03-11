@@ -40,6 +40,30 @@ class  CategoriesController extends Controller
        }
 
 
+       /**
+        * Display Edit Form
+        *
+        * @param int $id
+        * @return string
+      */
+      public function edit($id)
+      {
+        
+          // pre($id);
+          $categoriesModel = $this->load->model('Categories');
+
+          if(! $categoriesModel->exists($id)){
+
+              return $this->url->redirectTo('/404');
+          }
+
+          $category = $categoriesModel->get($id);
+          
+          return $this->form($category);
+       
+     }
+
+
       /**
         * Display Form
         *
@@ -70,6 +94,35 @@ class  CategoriesController extends Controller
          
      }
 
+     /**
+      * Submit for creating new users group
+      *
+      * @return string | json
+      */
+     public function save($id)
+     {
+
+          $json = [];
+
+          if($this->isValid())
+          {
+             // // it means there are no errors in form validation
+             $this->load->model('Categories')->update($id);
+
+             $json['success'] = 'Category Has Been Updated Successfully';
+
+             $json['redirectTo'] = $this->url->link('/admin/categories');
+
+          }else{
+            // it means there are  errors in form validation
+            $json['errors'] = $this->validator->flattenMessages();
+          
+          }
+         return $this->json($json); 
+         
+     }
+
+
 
      /**
       * Submit for creating new category
@@ -97,6 +150,32 @@ class  CategoriesController extends Controller
               }
 
               return $this->json($json);  
+     }
+
+
+
+     /**
+      * Delete Record
+      * 
+      * @param int $id
+      * @return mixed
+      */
+     public function delete($id)
+     {
+           
+           $categoriesModel = $this->load->model('Categories');
+
+           if(! $categoriesModel->exists($id)){
+  
+              return $this->url->redirectTo('/404');
+           }
+
+           $categoriesModel->delete($id);
+           
+           $json['success'] = 'Category Has Been Deleted Successfully';
+           
+           return $this->json($json);
+           
      }
 
 

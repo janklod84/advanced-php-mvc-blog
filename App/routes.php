@@ -89,6 +89,21 @@ $app->route->add('/admin/users-groups/delete/:id', 'Admin/UsersGroups@delete');
 
 /*
 |---------------------------------------------
+|          ADMIN CATEGORIES ROUTES
+|---------------------------------------------
+*/
+
+$app->route->add('/admin/categories', 'Admin/Categories');
+$app->route->add('/admin/categories/add', 'Admin/Categories@add', 'POST');
+$app->route->add('/admin/categories/submit', 'Admin/Categories@submit', 'POST');
+$app->route->add('/admin/categories/edit/:id', 'Admin/Categories@edit', 'POST');
+$app->route->add('/admin/categories/save/:id', 'Admin/Categories@save', 'POST');
+$app->route->add('/admin/categories/delete/:id', 'Admin/Categories@delete', 'POST');
+
+
+
+/*
+|---------------------------------------------
 |          ADMIN POSTS ROUTES
 |---------------------------------------------
 */
@@ -112,19 +127,6 @@ $app->route->add('/admin/comments/edit/:id', 'Admin/Comments@edit');
 $app->route->add('/admin/comments/save/:id', 'Admin/Comments@save', 'POST');
 $app->route->add('/admin/comments/delete/:id', 'Admin/Comments@delete');
 
-
-/*
-|---------------------------------------------
-|          ADMIN CATEGORIES ROUTES
-|---------------------------------------------
-*/
-
-$app->route->add('/admin/categories', 'Admin/Categories');
-$app->route->add('/admin/categories/add', 'Admin/Categories@add', 'POST');
-$app->route->add('/admin/categories/submit', 'Admin/Categories@submit', 'POST');
-$app->route->add('/admin/categories/edit/:id', 'Admin/Categories@edit');
-$app->route->add('/admin/categories/save/:id', 'Admin/Categories@save', 'POST');
-$app->route->add('/admin/categories/delete/:id', 'Admin/Categories@delete');
 
 
 /*

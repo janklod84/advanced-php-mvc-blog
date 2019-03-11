@@ -36,15 +36,15 @@
                     </tr>
                     <?php foreach($categories AS $category): ?>
                     <tr>
-                      <td><?php echo $category->id; ?></td>
-                      <td><?php echo $category->name; ?></td>
-                      <td><?php echo ucfirst($category->status); ?></td>
+                      <td><?= $category->id; ?></td>
+                      <td><?= $category->name; ?></td>
+                      <td><?= ucfirst($category->status); ?></td>
                       <td>
-                        <button type="button" data-target="<?php echo url('admin/categories/edit/' . $category->id); ?>" data-modal-target="#edit-category-<?php echo $category->id; ?>" class="btn btn-primary open-popup">
+                        <button type="button" data-target="<?= url('admin/categories/edit/' . $category->id); ?>" data-modal-target="#edit-category-<?= $category->id; ?>" class="btn btn-primary open-popup">
                               Edit
                               <span class="fa fa-pencil"></span>
                         </button>
-                        <button  type="button" data-target="<?php echo url('admin/categories/delete/' . $category->id); ?>" class="btn btn-danger delete">      Delete
+                        <button  type="button" data-target="<?= url('admin/categories/delete/' . $category->id); ?>" class="btn btn-danger delete"> Delete
                               <span class="fa fa-trash"></span>
                         </button>
                       </td>
@@ -53,15 +53,6 @@
                   </table>
                 </div>
                 <!-- /.box-body -->
-                <div class="box-footer clearfix">
-                  <!-- <ul class="pagination pagination-sm no-margin pull-right">
-                    <li><a href="#">&laquo;</a></li>
-                    <li><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">&raquo;</a></li>
-                  </ul> -->
-                </div>
               </div>
           </div>
       </div>

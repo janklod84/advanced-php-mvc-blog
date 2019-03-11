@@ -19,9 +19,9 @@ class  DashboardController extends Controller
      */
 	   public function submit()
      {
-         // pre($_SESSION);
-         //$json['name'] = $this->request->post('fullname');
-         //return $this->json($json);
+         
+          $json['name'] = $this->request->post('fullname');
+          return $this->json($json);
           
 	   	    $this->validator->required('email')
 	   	                   ->email('email')
