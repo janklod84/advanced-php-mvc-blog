@@ -32,12 +32,7 @@
 
   <!-- CKEditor  -->
   <script src="<?php echo assets('admin/ckeditor/ckeditor.js'); ?>"></script>
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
+
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -67,11 +62,9 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="admin/#" class="dropdown-toggle" data-toggle="dropdown">
-              <!-- <img src="<?php  //echo assets('images/'. $user->image); ?>" style="width:50px;height:50px;border-radius:50%;" alt="<?php  //echo  $user->first_name .' ' . $user->last_name; ?>" class="user-image"> -->
+             <!--  <img src="<?php //echo assets('images/'. $user->image); ?>" style="width:50px;height:50px;border-radius:50%;" alt="<?php //echo $user->first_name .' ' . $user->last_name; ?>" class="user-image"> -->
               <span class="hidden-xs">
-                      <?php 
-                         // echo  $user->first_name .' ' . $user->last_name;
-                       ?>
+                  <?php //echo $user->first_name .' ' . $user->last_name; ?>
               </span>
             </a>
             <ul class="dropdown-menu">

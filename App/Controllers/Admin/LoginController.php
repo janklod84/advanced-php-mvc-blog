@@ -15,8 +15,9 @@ class LoginController extends Controller
 	     */
 	  	 public function index()
 	  	 {
-	  	 	   $loginModel = $this->load->model('Login'); 
 
+	  	 	   $loginModel = $this->load->model('Login'); 
+               
 	           if($loginModel->isLogged()) 
 	           { 
            	       return $this->url->redirectTo('/admin');

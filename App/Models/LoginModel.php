@@ -76,7 +76,7 @@ class  LoginModel extends Model
                
                }elseif($this->session->has('login')){
 
-                   $code = $this->session->get('login');
+                   $code = $this->session->get('login'); 
                   
                }else{
 

@@ -192,10 +192,16 @@ class Database
         * @param string $select
         * @return  $this
         */
-        public function select($select)
+        public function select(...$selects)
         {
-        	 $this->selects[] = $select;
-        	 return $this;
+        	  // for those who use PHP 5.6 , you can use the ... operator
+          
+            // otherwise , use the following line to get all passes arguments
+            $selects = func_get_args();
+
+            $this->selects = array_merge($this->selects, $selects);
+
+            return $this;
         }
 
 

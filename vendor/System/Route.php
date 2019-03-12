@@ -63,6 +63,18 @@ class Route
 
 
       /**
+       * Get all routes
+       * 
+       * @return array
+      */
+      public function routes()
+      {
+          return $this->routes;
+      }
+
+
+
+      /**
         * Add New Route
         *
         * Optimise method 
@@ -92,6 +104,8 @@ class Route
       }
 
 
+      
+
       /**
         * Set Not Found Url
         *
@@ -105,6 +119,45 @@ class Route
 
 
       /**
+        * Call the given callback before calling the main controller
+        *
+        * @var callable $callable
+        * @return $this
+      */
+      public function callFirst(callable $callable)
+      {
+           $this->calls['first'][] = $callable;
+           return $this;
+      }
+
+      /**
+         * Determine if there are any callbacks that will be called before
+         * calling the main controller
+         *
+         * @return bool
+       */
+       public function hasCallsFirst()
+       {
+           return ! empty($this->calls['first']);
+       }
+
+       /**
+       * Call All callbacks that will be called before
+       * calling the main controller
+       *
+       * @return bool
+       */
+       public function callFirstCalls()
+       {
+           foreach($this->calls['first'] as $callback)
+           {
+                 call_user_func($callback, $this->app);
+           }
+           
+       }
+
+
+      /**
        * Get Proper Route
        *
        * @return array
@@ -113,15 +166,11 @@ class Route
        {
             foreach ($this->routes as $route)
             {
-                 // pre($route);
                  if($this->isMatching($route['pattern']) AND $this->isMatchingMethod($route['method']))
                  {
-                      // pre($route['pattern']);
                       $arguments = $this->getArgumentsFrom($route['pattern']);
-                      // pre($arguments);
-
-                      // controller@method
                       list($controller, $method) = explode('@', $route['action']);
+                      $this->current = $route;
 
                       return [$controller, $method, $arguments];
                  }
@@ -130,6 +179,17 @@ class Route
             // redirect to not found page ( si page introuvable)
             return $this->app->url->redirectTo($this->notFound); // 404
        }
+
+
+       /**
+        * Get Current Route Url
+        *
+        * @return string
+       */
+        public function getCurrentRouteUrl()
+        {
+            return $this->current['url'];
+        }
 
        
        /**

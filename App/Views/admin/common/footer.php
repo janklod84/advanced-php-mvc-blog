@@ -287,8 +287,10 @@
 </script>
 <!-- Bootstrap 3.3.6 -->
 <script src="<?php echo assets('admin/bootstrap/js/bootstrap.min.js'); ?>"></script>
+
 <!-- CKEditor  -->
 <script src="<?php echo assets('admin/ckeditor/ckeditor.js'); ?>"></script>
+
 <!-- Morris.js charts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
 <script src="<?php echo assets('admin/plugins/morris/morris.min.js'); ?>"></script>
@@ -319,10 +321,9 @@
 
 <!-- scripts -->
 <script>
-   // alert('Hi'); it's Work!
-
+  
    // CKEDITOR
-   CKEDITOR.replaceAll('details');
+   // CKEDITOR.replaceAll('details');
 
    // ACTIVE LINK
    // $(function(){ });
@@ -341,9 +342,9 @@
 
    // USE AJAX REQUEST TO SEND DATAS
    $('.open-popup').on('click', function(){
-       
+
         btn = $(this);
-        url = btn.data('target'); // alert(url);
+        url = btn.data('target'); 
         modalTarget = btn.data('modal-target');
         
         // remove the target from the page
@@ -353,7 +354,7 @@
                url: url,
                type: 'POST',
                success: function (html){
-
+                
                   $('body').append(html);
                   $(modalTarget).modal('show');
                }

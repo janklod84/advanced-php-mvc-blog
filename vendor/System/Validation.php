@@ -75,8 +75,8 @@ class Validation
 
                $file = $this->app->request->file($inputName);
 
-               if(! $file->exists()){
-
+               if(! $file->exists())
+               {
                   $message = $customErrorMessage ?: sprintf('%s Is Required' , ucfirst($inputName));
                   $this->addError($inputName, $message);
                }

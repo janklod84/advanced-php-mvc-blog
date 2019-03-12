@@ -1,2 +1,11 @@
+Super Admin
 login: jeanyao@blog.loc
 pass : 123456
+
+User 
+login: yaomichel@blog.loc
+pass: michel2016
+
+
+REDACTOR WYSIWIG
+https://webformyself.com/ustanovka-vizualnogo-redaktora-s-fajlovym-menedzherom/

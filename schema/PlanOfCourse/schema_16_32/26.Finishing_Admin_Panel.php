@@ -26,6 +26,7 @@
 |- page => /admin/users : relative path
 |- page => localhost/blog/admin/users : absolute path
 |- page => sitename.com/blog/admin/users : absolute path
-|- Middleware ?
+|-
+|- Middleware ? Login
 |- 
 ---|
