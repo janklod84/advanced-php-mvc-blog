@@ -9,7 +9,9 @@ class HeaderController extends Controller
     public function index()
     {
         $data['title'] = $this->html->getTitle();
-
+        
+        // die(seo('<>!#@!#!@Hello + World'));
+        
         $loginModel = $this->load->model('Login');
 
         $data['user'] = $loginModel->isLogged() ? $loginModel->user() : null;

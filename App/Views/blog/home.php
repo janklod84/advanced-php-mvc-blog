@@ -33,7 +33,7 @@
         <!--/ Slideshow -->
         <!-- Main Content -->
         <div class="col-sm-9 col-xs-12" id="main-content">
-            <?php foreach ($posts AS $post) { ?>
+            <?php foreach ($posts as $post) { ?>
                 <?php echo $post_box($post);?>
              <?php } ?>
         </div>

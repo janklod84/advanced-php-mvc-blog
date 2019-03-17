@@ -23,7 +23,11 @@ if (strpos($app->request->url(), '/admin') === 0)
     	 $app->route->callFirst(function($app){
           	 $app->load->action('Admin/Access', 'index'); 
     	 });
-
+       
+        // share admin layout
+	    $app->share('adminLayout', function ($app) {
+	        return $app->load->controller('Admin/Common/Layout');
+	    });
 
 } else {
 
@@ -59,12 +63,12 @@ $app->route->add('/register/submit', 'Blog/Register@submit', 'POST');
 $app->route->add('/login', 'Blog/Login');
 $app->route->add('/login/submit', 'Blog/Login@submit', 'POST');
 $app->route->add('/logout', 'Blog/Logout');
-//
-$app->route->add('/contact-us', 'Blog/Contact');
-$app->route->add('/contact-us/submit', 'Blog/Contact@submit', 'POST');
-$app->route->add('/about-us', 'Blog/About');
-$app->route->add('/profile', 'Blog/Profile');
-$app->route->add('/search', 'Blog/Search');
+
+// $app->route->add('/contact-us', 'Blog/Contact');
+// $app->route->add('/contact-us/submit', 'Blog/Contact@submit', 'POST');
+// $app->route->add('/about-us', 'Blog/About');
+// $app->route->add('/profile', 'Blog/Profile');
+// $app->route->add('/search', 'Blog/Search');
 
 
 

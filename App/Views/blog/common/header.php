@@ -55,7 +55,7 @@
                 <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Categories <span class="caret"></span></a>
                   <ul class="dropdown-menu">
-                    <?php foreach ($categories AS $category) { ?>
+                    <?php foreach ($categories as $category) { ?>
                     <li>
                         <a href="<?php echo url('category/' . seo($category->name) . '/' . $category->id); ?>"><?php echo $category->name; ?></a>
                     </li>

@@ -107,6 +107,19 @@ class Request
 
 
        /**
+         * Set Value To _POST For the given key
+         *
+         * @param string $key
+         * @param mixed $valuet
+         * @return mixed
+       */
+       public function setPost($key, $value)
+       {
+            $_POST[$key] = $value;
+       }
+
+
+       /**
         * Get the uploaded file object for the given input
         *
         * @param string $input
