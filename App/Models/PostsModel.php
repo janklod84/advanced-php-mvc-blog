@@ -63,6 +63,25 @@ class PostsModel extends Model
      }
 
      /**
+     * Get Latest Posts
+     *
+     * @return array
+     */
+      public function latest()
+      {
+          // get the latest added posts
+          return $this->select('p.*', 'c.name AS `category`', 'u.first_name', 'u.last_name')
+                      ->select('(SELECT COUNT(co.id) FROM comments co WHERE co.post_id=p.id) AS total_comments')
+                      ->from('posts p')
+                      ->join('LEFT JOIN categories c ON p.category_id=c.id')
+                      ->join('LEFT JOIN users u ON p.user_id=u.id')
+                      ->where('p.status=?', 'enabled')
+                      ->orderBy('p.id', 'DESC')
+                      ->fetchAll();
+      }
+      
+
+     /**
       * Upload post Image
       *
       * @return string

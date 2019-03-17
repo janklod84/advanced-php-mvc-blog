@@ -16,7 +16,9 @@
 |- Creating Category Page
 |- Creating Pagination Class
 |- Creating Search Page
-|-
-|- 
-|-
-|- 
+|- Creating Post Page
+|- Creating Comments
+|- Creating Contact Us Page
+|- Creating About Us Page
+|- The End.
+--|

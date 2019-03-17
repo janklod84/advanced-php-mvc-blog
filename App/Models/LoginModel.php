@@ -73,7 +73,7 @@ class  LoginModel extends Model
                if($this->cookie->has('login')){
 
                     $code = $this->cookie->get('login');
-                    $code = ''; // just for now
+                    // $code = ''; // just for now
 
                }elseif($this->session->has('login')){
 

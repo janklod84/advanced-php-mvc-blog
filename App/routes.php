@@ -20,10 +20,27 @@ if (strpos($app->request->url(), '/admin') === 0)
         # if so, then call our middlewares
 
 	    // $app->load->action('Admin/Access', 'index');
-        
     	 $app->route->callFirst(function($app){
           	 $app->load->action('Admin/Access', 'index'); 
     	 });
+
+
+} else {
+
+
+		// share Blog layout
+	    $app->share('blogLayout', function ($app) {
+	        return $app->load->controller('Blog/Common/Layout');
+	    });
+
+	    // share|load settings for each request
+	    $app->share('settings', function ($app) {
+	        $settingsModel = $app->load->model('Settings');
+
+	        $settingsModel->loadAll();
+
+	        return $settingsModel;
+	    });
 }
 
 
@@ -32,8 +49,22 @@ if (strpos($app->request->url(), '/admin') === 0)
 |          BLOG ROUTES http://localhost/blog/
 |---------------------------------------------
 */
-$app->route->add('/', 'Home');
 
+$app->route->add('/', 'Blog/Home'); // Home Page
+$app->route->add('/category/:text/:id', 'Blog/Category');
+$app->route->add('/post/:text/:id', 'Blog/Post');
+$app->route->add('/post/:text/:id/add-comment', 'Blog/Post@addComment', 'POST');
+$app->route->add('/register', 'Blog/Register');
+$app->route->add('/register/submit', 'Blog/Register@submit', 'POST');
+$app->route->add('/login', 'Blog/Login');
+$app->route->add('/login/submit', 'Blog/Login@submit', 'POST');
+$app->route->add('/logout', 'Blog/Logout');
+//
+$app->route->add('/contact-us', 'Blog/Contact');
+$app->route->add('/contact-us/submit', 'Blog/Contact@submit', 'POST');
+$app->route->add('/about-us', 'Blog/About');
+$app->route->add('/profile', 'Blog/Profile');
+$app->route->add('/search', 'Blog/Search');
 
 
 

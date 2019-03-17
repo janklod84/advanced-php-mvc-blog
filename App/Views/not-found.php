@@ -1,20 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html>
+
 <head>
-	<meta charset="UTF-8">
-	<title>404 Not Found</title>
-	<style>
-		body{
-			font-family: Helvetica,arial, sans-serif;
-			font-style: normal;
-		}
-	</style>
+  <title>404 Not Found</title>
 </head>
+
 <body>
-	
- <h1 style="text-align: center;">
- 	Oops! Not Found Page
- </h1>
+
+<h1 style="text-align: center">
+    Oops! Not Found Page
+</h1>
 
 </body>
 </html>

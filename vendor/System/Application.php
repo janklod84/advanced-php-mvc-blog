@@ -265,7 +265,8 @@ class Application
                 'db'         =>  'System\\Database',
                 'view'       =>  'System\\View\\ViewFactory',
                 'url'        =>  'System\\Url',
-                'validator'  =>  'System\\Validation'
+                'validator'  =>  'System\\Validation',
+                'pagination'    => 'System\\Pagination'
        	   ];
        }
 
