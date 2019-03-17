@@ -3,6 +3,10 @@ namespace System;
 
 
 use Closure;
+use Whoops\Run AS Whoops;
+use Whoops\Util\Misc AS WhoopsMisc;
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Handler\JsonResponseHandler;
 
 
 /**
@@ -33,17 +37,41 @@ class Application
   	   * @param \System\File $file
   	   */
   	  private function __construct(File $file)
-  	  {
-  	  	   # Share file in container
+  	  {     
+
+             # Error Handler Whoops
+             $this->handleErrors();
+
+
+  	  	     # Share file in container
              $this->share('file', $file);
 
-             # Autoloading classes
-             $this->registerClasses(); 
 
              # Load Helpers
              $this->loadHelpers();
 
   	  }
+
+
+      /**
+       * Handle Errors
+       * 
+      */
+      private function handleErrors()
+      {
+            $run = new Whoops();
+            $run->pushHandler(new PrettyPageHandler);
+            
+            if(WhoopsMisc::isAjaxRequest())
+            {
+                  $jsonHandler = new JsonResponseHandler();
+                  $jsonHandler->addTraceToOutput(true);
+
+                  $run->pushHandler($jsonHandler);
+            }
+
+            $run->register();
+      } 
 
 
 	    /**
@@ -103,43 +131,6 @@ class Application
 
 
   	  /**
-  	   * Register classes in spl_autoload_register
-  	   * 
-  	   * @return void
-  	   */
-  	  public function registerClasses()
-  	  {
-             spl_autoload_register([$this, 'load']);
-  	  }
-
-
-  	  /**
-  	   * Load Class through autoloading
-  	   * 
-  	   * @param string $class
-  	   * @return void
-  	   */
-  	  public function load($class)
-  	  {
-  	  	   if (strpos($class, 'App') === 0)
-  	  	   {
-  	  	   	   $file = $class.'.php';
-
-  	  	   }else{
-                 
-                  # Get the class from vendor
-                  # Exemple : $this->file->toVendor('System\\Test.php')
-                  $file = 'vendor/'. $class.'.php';    
-  	  	   }
-
-  	  	   # Require file if it's exist
-  	  	   if($this->file->exists($file))
-   	       {
-                $this->file->call($file);
-   	       }
-  	  }
-
-  	  /**
   	   * Load Helpers File
   	   * 
   	   * 
@@ -147,7 +138,7 @@ class Application
   	  */
   	  public function loadHelpers()
   	  {
-  	  	   $this->file->call('vendor/helpers.php');
+  	  	   $this->file->call('vendor/System/helpers.php');
   	  }
 
 

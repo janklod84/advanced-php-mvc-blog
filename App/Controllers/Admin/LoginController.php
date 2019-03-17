@@ -36,6 +36,8 @@ class LoginController extends Controller
 	     */
 	     public function submit()
 	     {
+	     	   // echo $a; tester Whoops ErrorHandler
+
 	     	   $json = [];
 
 	           if($this->isValid())
