@@ -87,6 +87,11 @@ class Application
              # Get : Controller \ Method \ Arguments
              list($controller, $method, $arguments) = $this->route->getProperRoute();
 
+             # Middleware
+             if($this->route->hasCallsFirst())
+             {
+                  $this->route->callFirstCalls();
+             }
 
              # Get content [ object convert to string ]
              $output =  (string) $this->load->action($controller, $method, $arguments);

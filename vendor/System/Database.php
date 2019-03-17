@@ -71,6 +71,22 @@ class Database
 
 
         /**
+         * Havings
+         *
+         * @var array
+        */
+        private $havings = [];
+
+
+         /**
+           * Group By
+           *
+           * @var array
+         */
+         private $groupBy = [];
+
+
+        /**
         * Selects
         *
         * @var array
@@ -335,6 +351,16 @@ class Database
                    $sql .=  ' WHERE ' . implode(' ' , $this->wheres) . ' ';
                }
 
+               if($this->havings) 
+               {
+                   $sql .= ' HAVING ' . implode(' ', $this->havings) . ' ';
+               }
+
+               if($this->orderBy)
+               {
+                  $sql .= ' ORDER BY ' . implode(' ' , $this->orderBy);
+               }
+
                if($this->limit)
                {
                   $sql .= ' LIMIT ' . $this->limit;
@@ -345,9 +371,9 @@ class Database
                   $sql .= ' OFFSET ' . $this->offset;
                }
 
-               if($this->orderBy)
+               if($this->groupBy)
                {
-                  $sql .= ' ORDER BY ' . implode(' ' , $this->orderBy);
+                  $sql .= ' GROUP BY ' . implode(' ' , $this->groupBy);
                }
 
                return $sql;
@@ -478,6 +504,38 @@ class Database
 
              return $this;
          }
+
+
+          /**
+            * Add New Having clause
+            *
+            * @return $this
+          */
+           public function having()
+           {
+               $bindings = func_get_args();
+
+               $sql = array_shift($bindings);
+
+               $this->addToBindings($bindings);
+
+               $this->havings[] = $sql;
+
+               return $this;
+           }
+
+          /**
+          * Group By Clause
+          *
+          * @param array $arguments => PHP 5.6
+          * @return $this
+          */
+          public function groupBy(...$arguments)
+          {
+              $this->groupBy = $arguments;
+              return $this;
+          }
+
 
 
          /**
@@ -628,6 +686,8 @@ class Database
              $this->joins = [];
              $this->wheres = [];
              $this->orderBy = [];
+             $this->havings = [];
+             $this->groupBy = [];
              $this->selects = [];
              $this->bindings = [];
           }

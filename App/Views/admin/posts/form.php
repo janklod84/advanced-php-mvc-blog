@@ -19,7 +19,7 @@
                
                  <div class="form-group col-sm-12">
                    <label for="details">Details</label>
-                   <textarea name="details" id="details" col="30" rows="10" class="form-control"><?php echo $details; ?></textarea>
+                   <textarea name="details" id="details" col="30" rows="10" class="details form-control"><?php echo $details; ?></textarea>
                  </div>
 
                   <div class="form-group col-sm-12">
@@ -83,12 +83,10 @@
       </div>
 
       <script>
-         /*
-         if(CKEDITOR.instances.details)
+         for(name in CKEDITOR.instances)
          {
-            CKEDITOR.instances.details.destroy(false);
+              CKEDITOR.instances[name].destroy();
          }
-         */
-
-         CKEDITOR.replace('details');
+         
+         CKEDITOR.replaceAll('details');
       </script>

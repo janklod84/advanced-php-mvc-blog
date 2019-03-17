@@ -1,98 +1,65 @@
-<?php 
+<?php
 namespace App\Models;
 
 use System\Model;
 
 
-
-class  SettingsModel extends Model
+class SettingsModel extends Model
 {
-	
-    /** 
+     /**
      * Table name
      *
-     *
      * @var string
-    */
-
-     protected $table = 'settings';
-
-
-      /**
-      * Create New Ads Groups Record
-      *
-      * @return void
-      */
-     public function create()
-     {
-        
-        $image = $this->uploadImage();
-
-        if($image){
-            $this->data('image', $image);
-        }
-        
-        $this->data('link', $this->request->post('link'))
-             ->data('name', $this->request->post('name'))
-             ->data('start_at', strtotime($this->request->post('start_at')))
-             ->data('end_at', strtotime($this->request->post('end_at')))
-             ->data('status', $this->request->post('status'))
-             ->data('page', $this->request->post('page'))
-             ->data('created', time())
-             ->insert('ads');
-      
-     }
+     */
+    protected $table = 'settings';
 
      /**
-      * Upload Ad Image
-      *
-      * @return string
-      */ 
-     private function uploadImage()
-     {
-
-         $image = $this->request->file('image');
-
-         if(! $image->exists()){
-
-            return '';
-         }
-
-         return $image->moveTo($this->app->file->toPublic('images'));
-     }
-
+     * Loaded Settings
+     *
+     * @var array
+     */
+    private $settings = [];
 
      /**
-      * Update  Ad Record By Id
-      *
-      * @param int $id
-      * @return void
-      */
-     
-     public function update($id)
-     {
+     * Load And Store All settings in the database
+     *
+     * @return void
+     */
+    public function loadAll()
+    {
+        foreach ($this->all() as $setting) {
+            $this->settings[$setting->key] = $setting->value;
+        }
+    }
 
-        $image = $this->uploadImage();
+     /**
+     * Get Settings By Key
+     *
+     * @param string $key
+     * @return mixed
+     */
+    public function get($key)
+    {
+        return array_get($this->settings, $key);
+    }
 
-        if($image){
-            $this->data('image', $image);
+     /**
+     * Update Settings
+     *
+     * @return void
+     */
+    public function updateSettings()
+    {
+        // pre-defined keys (settings) that will be stored in database
+        $keys = ['site_name', 'site_email', 'site_status', 'site_close_msg'];
+
+        foreach ($keys as $key) {
+            // why to not make an update ?
+            $this->where('`key` = ?', $key)->delete($this->table);
+            $this->data('key', $key)
+                 ->data('value', $this->request->post($key))
+                 ->insert($this->table);
         }
 
-      
-         $this->data('name', $this->request->post('name'))
-             ->data('link', $this->request->post('link'))
-             ->data('start_at', strtotime($this->request->post('start_at')))
-             ->data('end_at', strtotime($this->request->post('end_at')))
-             ->data('status', $this->request->post('status'))
-             ->data('page', $this->request->post('page'))
-             ->data('created', time())
-             ->where('id=?', $id)
-             ->update('ads');
-
-     }
-
-
-
-
-
+    }
 }

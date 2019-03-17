@@ -19,13 +19,11 @@ if (strpos($app->request->url(), '/admin') === 0)
         # check if the current url started with /admin
         # if so, then call our middlewares
 
-	    $app->load->action('Admin/Access', 'index');
+	    // $app->load->action('Admin/Access', 'index');
         
-         /*
     	 $app->route->callFirst(function($app){
           	 $app->load->action('Admin/Access', 'index'); 
     	 });
-    	 */
 }
 
 
@@ -87,6 +85,17 @@ $app->route->add('/admin/users/submit', 'Admin/Users@submit', 'POST');
 $app->route->add('/admin/users/edit/:id', 'Admin/Users@edit', 'POST');
 $app->route->add('/admin/users/save/:id', 'Admin/Users@save', 'POST');
 $app->route->add('/admin/users/delete/:id', 'Admin/Users@delete' , 'POST');
+
+
+/*
+|---------------------------------------------
+|          ADMIN USER PROFILE
+|---------------------------------------------
+*/
+
+
+$app->route->add('/admin/profile/update', 'Admin/Profile@update', 'POST');
+
 
 
 

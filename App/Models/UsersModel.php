@@ -109,7 +109,8 @@ class UsersModel extends Model
 		               
 		             $usersGroupId = $this->request->post('users_group_id');
 		        }
-
+          
+            // birthday = strtotime($this->request->post('birthday'))
 
 		        $this->data('first_name', $this->request->post('first_name'))
 		             ->data('last_name', $this->request->post('last_name'))
@@ -117,7 +118,7 @@ class UsersModel extends Model
 		             ->data('email', $this->request->post('email'))
 		             ->data('status', $this->request->post('status'))
 		             ->data('gender', $this->request->post('gender'))
-		             ->data('birthday', strtotime($this->request->post('birthday')))
+		             ->data('birthday', $this->request->post('birthday'))
 		             ->where('id=?' , $id)
 		             ->update('users');
 	     }

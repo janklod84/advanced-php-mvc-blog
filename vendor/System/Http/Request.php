@@ -147,42 +147,45 @@ class Request
         * 
         * @return string
         */
-        public function method()
-        {
-             return $this->server('REQUEST_METHOD');
-        }
-
-        /**
-         * Get the Referer link
-         *
-         * @return string
-         */
-        public function referer()
-        {
-           return $this->server('HTTP_REFERER');
-        }
-
-
-
-        /**
-         * Get full url of the script
-         * 
-         * @return string
-        */
-        public function baseUrl()
-        {
-            return $this->baseUrl;
-        }
-
-       /**
-         * Get Only relative url (clean url)
-         *
-         * @return string
-         *
-       */
-       public function url()
+       public function method()
        {
-            return  $this->url;
+            return $this->server('REQUEST_METHOD');
        }
+
+
+      /**
+       * Get the Referer link
+       *
+       * @return string
+       */
+      public function referer()
+      {
+           return $this->server('HTTP_REFERER');
+      }
+
+
+
+      /**
+       * Get full url of the script
+       * 
+       * @return string
+      */
+      public function baseUrl()
+      {
+          return $this->baseUrl;
+      }
+
+      
+
+     /**
+       * Get Only relative url (clean url)
+       *
+       * @return string
+       *
+     */
+     public function url()
+     {
+          return  $this->url;
+     }
      
 }

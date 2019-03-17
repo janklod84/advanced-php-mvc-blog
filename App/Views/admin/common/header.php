@@ -39,7 +39,7 @@
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="admin/index2.html" class="logo">
+    <a href="/blog" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>C</b>P</span>
       <!-- logo for regular state and mobile devices -->
@@ -62,9 +62,9 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="admin/#" class="dropdown-toggle" data-toggle="dropdown">
-             <!--  <img src="<?php //echo assets('images/'. $user->image); ?>" style="width:50px;height:50px;border-radius:50%;" alt="<?php //echo $user->first_name .' ' . $user->last_name; ?>" class="user-image"> -->
+             <img src="<?php echo assets('images/'. $user->image); ?>" style="width:50px;height:50px;border-radius:50%;" alt="<?php echo $user->first_name .' ' . $user->last_name; ?>" class="user-image" title="To Profile ?">
               <span class="hidden-xs">
-                  <?php //echo $user->first_name .' ' . $user->last_name; ?>
+                  <?php echo $user->first_name .' ' . $user->last_name; ?>
               </span>
             </a>
             <ul class="dropdown-menu">

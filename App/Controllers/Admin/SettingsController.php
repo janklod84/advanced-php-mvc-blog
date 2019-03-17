@@ -1,112 +1,78 @@
-<?php 
-
+<?php
 namespace App\Controllers\Admin;
 
-use  System\Controller;
+use System\Controller;
 
 
-class  SettingsController extends Controller{
-      
+
+class SettingsController extends Controller
+{
       /**
-       * Display Settings Form
-       *
-       * @return mixed
-       */
-	   public function index(){
-          
-          
-           $this->html->setTitle('Settings');
-          
-
-           $data['settings'] = $this->load->model('Settings')->all();
-
-           $data['success'] = $this->session->has('success') ? $this->session->pull('success') : null;
-
-          $view = $this->view->render('admin/settings/form' , $data);
-          
-          return  $this->adminLayout->render($view);
-
-           
-	   }
-
-    
-    
-     /**
-      * Display Form
+      * Display Settings Form
       *
-      * @param \stdClass $adsGroup
+      * @return mixed
       */
-     private function form($ad = null){
+      public function index()
+      {
+          $this->html->setTitle('Settings');
 
-         if($ad){
-            //editing form
-            $data['target'] = 'edit-ad-' . $ad->id;
-            $data['action'] = $this->url->link('admin/ads/save/' . $ad->id);
-            $data['heading'] = 'Edit ' . $ad->title;
+          $data['success'] = $this->session->has('success') ? $this->session->pull('success') : null;
+          $data['errors'] = $this->session->has('errors') ? $this->session->pull('errors') : null;
 
-          }else{
-             // adding form
-             $data['target'] = 'add-ad-form' ;
-             $data['action'] = $this->url->link('/admin/ads/submit');
-             $data['heading'] = 'Add New ad';
+          $settingsModel = $this->load->model('Settings');
 
-          }
+          $settingsModel->loadAll();
 
-          $ad = (array) $ad;
+          $data['action'] = $this->url->link('/admin/settings/save');
 
-          $data['link'] = array_get($ad , 'link');
-          $data['name'] = array_get($ad , 'name');
-          $data['ad_page']  = array_get($ad , 'page');
-          $data['status']  = array_get($ad , 'status' , 'enabled');
-          
-          $data['start_at'] = ! empty($ad['start_at']) ? date('d-m-Y', $ad['start_at']) : false;
-          $data['end_at'] = ! empty($ad['end_at']) ? date('d-m-Y', $ad['end_at']) : false;
-          $data['image'] = '';
+          $data['site_name'] = $this->request->post('site_name') ?: $settingsModel->get('site_name');
+          $data['site_email'] = $this->request->post('site_email') ?: $settingsModel->get('site_email');
+          $data['site_status'] = $this->request->post('site_status') ?: $settingsModel->get('site_status');
+          $data['site_close_msg'] = $this->request->post('site_close_msg') ?: $settingsModel->get('site_close_msg');
 
+          $view = $this->view->render('admin/settings/form', $data);
 
-          if(! empty($ad['image'])){
-             //default path to upload ad image : public/images
-             $data['image'] = $this->url->link('public/images/'. $ad['image']);
-          }
+          return $this->adminLayout->render($view);
+      }
 
-          $data['pages'] = $this->getPermissionPages();
+      
 
-          return $this->view->render('admin/ads/form', $data);
-         
-     }
-
-     
-     /**
-      * Validate the form
-      * 
-      * @param int $id
-      * @return bool
+      /**
+      * Submit for creating new ad
+      *
+      * @return string | json
       */
-     private function isValid($id = null){
+      public function save()
+      {
+          if ($this->isValid()) {
+              // it means there are no errors in form validation
+              $this->load->model('Settings')->updateSettings();
 
-         $this->validator->required('name');
-         $this->validator->required('link');
-         $this->validator->required('page');
-         $this->validator->required('start_at');
-         $this->validator->required('end_at');
-        
-         if(is_null($id)){
-            
-             // if the id is null
-            //  then method is called to create new ad
-            //  so we will validate the password as it should be required
-           
-            $this->validator->requiredFile('image')
-                            ->image('image');
+              $this->session->set('success', 'Ad Has Been Created Successfully');
 
-         }else{
-
-            $this->validator->image('image'); 
-         }
-
-         return $this->validator->passes(); 
-     }
+              $this->url->redirectTo('/admin/settings');
+          } else {
+              // it means there are errors in form validation
+              $this->session->set('errors', $this->validator->flattenMessages());
+              return $this->index();
+          }
+      }
 
 
+
+       /**
+       * Validate the form
+       *
+       * @param int $id
+       * @return bool
+       */
+      private function isValid($id = null)
+      {
+          $this->validator->required('site_name', 'Site Name Is Required');
+          $this->validator->required('site_email', 'Site Email Is Required');
+          $this->validator->required('site_status', 'Site Status Is Required');
+          $this->validator->required('site_close_msg', 'Site Close Message Is Required');
+
+          return $this->validator->passes();
+      }
 }
-
