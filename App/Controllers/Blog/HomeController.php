@@ -5,6 +5,8 @@ use System\Controller;
 
 class HomeController extends Controller
 {
+
+
      /**
      * Display Home Page
      *
@@ -12,6 +14,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+
         $data['posts'] = $this->load->model('Posts')->latest();
 
         $this->html->setTitle($this->settings->get('site_name'));

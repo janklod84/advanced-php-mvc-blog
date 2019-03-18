@@ -51,6 +51,7 @@ class Application
   	  	     # Share file in container
              $this->share('file', $file);
 
+
              # Share config in container
              $this->share('config', $this->file->call('config.php'));
 

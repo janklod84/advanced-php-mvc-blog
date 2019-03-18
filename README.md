@@ -87,3 +87,14 @@ We will set a middleware that will be executed for all the routes inside that gr
 Packages are special routes that are used only for CRUD routes.
 
 Such as Adding - Inserting - Updating - Listing And Deleting
+
+
+# 6 Day Six: Route class : Updating Pattern 
+
+Updates will contain:
+
+1 - Support for Arabic Routes
+
+2 - Support for _in url.
+
+3 - New type called :any for matching full url.

@@ -191,19 +191,18 @@ class Route
       {
            if($this->prefix)
            {
-               // assuming prefix = '/'
-               // url = /
-               // $url = //
-               // so we need to remove the last trailing slash
-               $url =  rtrim($this->prefix . $url, '/');
-
+               if($this->prefix != '/')
+               {
+                   $url =  rtrim($this->prefix . $url, '/');
+               }
+               
                if(! $url) { $url = '/'; }
 
            }
 
            if($this->baseController)
            {
-                 $action = $this->baseController . '/' . $action;
+               $action = $this->baseController . '/' . $action;
            }
 
            if($this->groupMiddleware)
@@ -381,14 +380,27 @@ class Route
         /**
            * Generate a regex pattern for the given url
            *
+           * $pattern = '#^';
+           * $pattern .= str_replace([':text', ':id'], ['([a-zA-Z0-9-]+)' , '(\d+)'] , $url);
+           * #pattern .= '$#i';
+           * 
            * @param string $url
            * @return string
         */
         private function generatePattern($url)
         {
              $pattern = '#^';
-             $pattern .= str_replace([':text', ':id'], ['([a-zA-Z0-9-]+)' , '(\d+)'] , $url);
-             $pattern .='$#';
+
+             // why i would ever use the :any pattern ?
+             // for saved urls in the database to match it
+             // for example: We have categories and we store the url like that /
+             // 1st category => Parent electronics
+             // child => Computer => electronics/computer
+             // 2nd child => Laptop => electronics/computer/laptop
+             // And always put the :any at the very last route
+
+             $pattern .= str_replace([':text', ':id', ':any'], ['([\p{Arabic}a-zA-Z0-9-_]+)' , '(\d+)', '(.*)'] , $url);
+             $pattern .='$#u';
 
              return $pattern; // #^/$#
         }

@@ -163,17 +163,20 @@ $blogOptions = [
 
 $app->route->group($blogOptions, function ($route) {
     
-    // Blog routes
-	$route->add('/', 'Home'); # Home Page
-	$route->add('/category/:text/:id', 'Category');
-	$route->add('/post/:text/:id', 'Post');
-	$route->add('/post/:text/:id/add-comment', 'Post@addComment', 'POST');
-	$route->add('/register', 'Register');
-	$route->add('/register/submit', 'Register@submit', 'POST');
-	$route->add('/login', 'Login');
-	$route->add('/login/submit', 'Login@submit', 'POST');
-	$route->add('/logout', 'Logout');
-
+	    // Blog routes
+		$route->add('/', 'Home'); # Home Page
+		
+		// url with the prefix `/` => // category/:text/:id
+		// url with the prefix `/` => /category/:text/:id
+		$route->add('/category/:text/:id', 'Category');
+		$route->add('/post/:text/:id', 'Post');
+		$route->add('/post/:text/:id/add-comment', 'Post@addComment', 'POST');
+		$route->add('/register', 'Register');
+		$route->add('/register/submit', 'Register@submit', 'POST');
+		$route->add('/login', 'Login');
+		$route->add('/login/submit', 'Login@submit', 'POST');
+		$route->add('/logout', 'Logout');
+        $route->add('/:any', 'Home'); # http://localhost/blog/bla/bla/bla
 });
 
 
