@@ -1,6 +1,7 @@
 <?php 
 namespace System\View;
 
+use Exception;
 use System\File;
 
 
@@ -78,7 +79,7 @@ class View implements ViewInterface
 
           if(! $this->viewFileExists($relativeViewPath)){
 
-            die('<b>' . $viewPath . ' View</b>' . '  does not exists in Views Folder');
+              throw new Exception("[$viewPath] View does not exists in Views Folder");
           
           }
      }

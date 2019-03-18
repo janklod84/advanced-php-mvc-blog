@@ -1,6 +1,23 @@
 <?php 
 use System\Application;
 
+
+
+if(! function_exists('app')) { 
+
+     
+    /**
+     * Get the application instance
+     *
+     * @return \System\Application
+     */
+     function app()
+     {
+         return Application::getInstance();
+     }
+
+}
+
 if (! function_exists('pre')) {
 
 	 /**
@@ -21,16 +38,16 @@ if (! function_exists('pre')) {
 if(! function_exists('pred')) { // pre and die
 
      
-	/**
-	 * Visualize the given variable in browser and exit the application
-	 *
-	 * @param mixed $var
-	 * @return void
-	 */
+    /**
+     * Visualize the given variable in browser and exit the application
+     *
+     * @param mixed $var
+     * @return void
+     */
      function pred($var){
 
-     	 pre($var);
-     	 die;
+         pre($var);
+         die;
      }
 
 }

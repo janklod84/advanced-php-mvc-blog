@@ -9,9 +9,15 @@
 |---------------------------------------------
 */
 
-use System\Application;
+$app = app();
 
-$app = Application::getInstance();
+$app->view->render('test');
+
+// Why we are going to use exceptions ?
+// production => errors will be stored in error.log file
+// errors should be only displayed in the development mode
+
+
 
 # Middleware Access
 if (strpos($app->request->url(), '/admin') === 0)

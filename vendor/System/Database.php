@@ -170,8 +170,10 @@ class Database
         */
         private function connect()
         {
-        	//echo 'Connected';
-            $connectionData = $this->app->file->call('config.php');
+        	  // Config will be taken from the application class
+
+            $connectionData = (array) array_get($this->app->config, 'db');
+
             extract($connectionData);
 
             try 

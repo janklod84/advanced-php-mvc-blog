@@ -3,6 +3,7 @@ namespace System;
 
 
 use Closure;
+use Exception;
 use Whoops\Run AS Whoops;
 use Whoops\Util\Misc AS WhoopsMisc;
 use Whoops\Handler\PrettyPageHandler;
@@ -45,6 +46,9 @@ class Application
 
   	  	     # Share file in container
              $this->share('file', $file);
+
+             # Share config in container
+             $this->share('config', $this->file->call('config.php'));
 
 
              # Load Helpers
@@ -109,23 +113,26 @@ class Application
          	   # Prepare URL
          	   $this->request->prepareUrl();
 
-         	   # require file App/routes.php [or rename by App/index.php]
-             $this->file->call('App/routes.php');
 
-             # Get : Controller \ Method \ Arguments
-             list($controller, $method, $arguments) = $this->route->getProperRoute();
+             # Routes
+             $routes = ['index.php'];
 
-             # Middleware
-             if($this->route->hasCallsFirst())
+             # We will loop through the routes
+             foreach ($routes as $route) 
              {
-                  $this->route->callFirstCalls();
+                  $this->file->call('routes/' . $route);
              }
 
-             # Get content [ object convert to string ]
-             $output =  (string) $this->load->action($controller, $method, $arguments);
-        
-             $this->response->setOutput($output);
+             # Get output
+             $output = $this->route->getProperRoute();
+
+
+             # Middleware
              
+
+             
+             # Response
+             $this->response->setOutput($output);
              $this->response->send();
        }
 
@@ -161,7 +168,8 @@ class Application
 
   	  	  	  }else{ # if key isn't in core alias, we'll generate error msg
                       
-                    die('<b>'. $key .'</b> not found in application container');
+                    throw new Exception("key [$key] not found in application container");
+                    
   	  	  	  }
   	  	  }
 

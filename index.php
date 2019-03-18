@@ -14,8 +14,6 @@ use System\File;
 use System\Application;
 
 
-
-
 $file = new File(__DIR__); 
 $app  = Application::getInstance($file);
 

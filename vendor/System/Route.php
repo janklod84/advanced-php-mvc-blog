@@ -158,9 +158,9 @@ class Route
 
 
       /**
-       * Get Proper Route
+       * Get Proper Route and send the output to the application class
        *
-       * @return array
+       * @return string
        */
        public function getProperRoute()
        {
@@ -171,8 +171,10 @@ class Route
                       $arguments = $this->getArgumentsFrom($route['pattern']);
                       list($controller, $method) = explode('@', $route['action']);
                       $this->current = $route;
+                      
+                      $output =  (string) $this->app->load->action($controller, $method, $arguments);
 
-                      return [$controller, $method, $arguments];
+                      return $output;
                  }
             }
 
