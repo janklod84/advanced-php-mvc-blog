@@ -146,6 +146,27 @@ class Route
 
 
       /**
+       * Add new package of routes for CRUD
+       * 
+       * @param string $url
+       * @param string $controller
+       * @return $this
+      */
+      public function package($url, $controller)
+      {
+           $this->add("$url", "$controller");
+           $this->add("$url/add", "$controller@add" , 'POST');
+           $this->add("$url/submit", "$controller@submit", 'POST');
+           $this->add("$url/edit/:id", "$controller@edit", 'POST');
+           $this->add("$url/save/:id", "$controller@save", 'POST');
+           $this->add("$url/delete/:id", "$controller@delete" , 'POST');
+
+           return $this;
+      }
+
+
+
+      /**
        * Get all routes
        * 
        * @return array
@@ -225,6 +246,8 @@ class Route
        public function getProperRoute()
        {
             $middlewareInterface = 'App\\Middleware\\MiddlewareInterface';
+            
+            /* pred($this->routes); */
 
             foreach ($this->routes as $route)
             {

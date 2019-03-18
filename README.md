@@ -79,3 +79,11 @@ Will work exactly like the url prefix as we won't add the Admin in begining of a
 
 Group Middleware
 We will set a middleware that will be executed for all the routes inside that group
+
+
+
+# 5 Day Five: Route class : Packages
+
+Packages are special routes that are used only for CRUD routes.
+
+Such as Adding - Inserting - Updating - Listing And Deleting
