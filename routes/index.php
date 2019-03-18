@@ -58,150 +58,170 @@ if (strpos($app->request->url(), '/admin') === 0)
 
 /*
 |---------------------------------------------
-|          ADMIN LOGIN ROUTES http://localhost/blog/admin/login
+|          ADMIN ROUTES http://localhost/blog/admin [ EXPECTED GROUP CODE ]
 |---------------------------------------------
 */
 
-$app->route->add('/admin/login', 'Admin/Login', 'GET', ['Admin\\Auth', 'Admin\\Config']);
-$app->route->add('/admin/login/submit', 'Admin/Login@submit', 'POST', ['Admin\\Auth', 'Admin\\Config']);
+$adminOptions = [
+	 'prefix' => '/admin',
+	 'controller' => 'Admin',
+	 'middleware' => ['Admin\\Auth', 'Admin\\Config']
+];
+
+$app->route->group($adminOptions, function ($route) {
+    
+        // pred($route);
+        /*
+		|---------------------------------------------
+		|          ADMIN DASHBOARD ROUTES
+		|---------------------------------------------
+		*/
+
+		$route->add('/' , 'Dashboard');
+		// $route->add('/submit' , 'Dashboard@submit', 'POST');
+
+
+	    /*
+		 |---------------------------------------------
+		 |          ADMIN ROUTES
+		 |---------------------------------------------
+	   */
+		$route->add('/login', 'Login');
+		$route->add('/login/submit', 'Login@submit', 'POST');
+
+
+		/*
+		|---------------------------------------------
+		|          ADMIN USERS ROUTES
+		|---------------------------------------------
+		*/
+
+		$route->add('/users', 'Users');
+		$route->add('/users/add', 'Users@add' , 'POST');
+		$route->add('/users/submit', 'Users@submit', 'POST');
+		$route->add('/users/edit/:id', 'Users@edit', 'POST');
+		$route->add('/users/save/:id', 'Users@save', 'POST');
+		$route->add('/users/delete/:id', 'Users@delete' , 'POST');
+
+
+		/*
+		|---------------------------------------------
+		|          ADMIN USER PROFILE
+		|---------------------------------------------
+		*/
+
+
+		$route->add('/profile/update', 'Profile@update', 'POST');
 
 
 
-/*
-|---------------------------------------------
-|          ADMIN DASHBOARD ROUTES
-|---------------------------------------------
-*/
 
-$app->route->add('/admin' , 'Admin/Dashboard', 'GET', ['Admin\\Auth', 'Admin\\Config']);
-$app->route->add('/admin/dashboard' , 'Admin/Dashboard');
-$app->route->add('/admin/submit' , 'Admin/Dashboard@submit', 'POST');
-
-
-/*
-|---------------------------------------------
-|          ADMIN USERS ROUTES
-|---------------------------------------------
-*/
-
-$app->route->add('/admin/users', 'Admin/Users');
-$app->route->add('/admin/users/add', 'Admin/Users@add' , 'POST');
-$app->route->add('/admin/users/submit', 'Admin/Users@submit', 'POST');
-$app->route->add('/admin/users/edit/:id', 'Admin/Users@edit', 'POST');
-$app->route->add('/admin/users/save/:id', 'Admin/Users@save', 'POST');
-$app->route->add('/admin/users/delete/:id', 'Admin/Users@delete' , 'POST');
+		/*
+		|---------------------------------------------
+		|          ADMIN USERS-GROUPS ROUTES
+		|---------------------------------------------
+		*/
+		$route->add('/users-groups', 'UsersGroups');
+		$route->add('/users-groups/add', 'UsersGroups@add', 'POST');
+		$route->add('/users-groups/submit', 'UsersGroups@submit', 'POST');
+		$route->add('/users-groups/edit/:id', 'UsersGroups@edit', 'POST');
+		$route->add('/users-groups/save/:id', 'UsersGroups@save', 'POST');
+		$route->add('/users-groups/delete/:id', 'UsersGroups@delete', 'POST');
 
 
-/*
-|---------------------------------------------
-|          ADMIN USER PROFILE
-|---------------------------------------------
-*/
+		/*
+		|---------------------------------------------
+		|          ADMIN CATEGORIES ROUTES
+		|          it's will be converted to /admin/categories
+		|          Categories => Admin/Categories
+		|---------------------------------------------
+		*/
 
-
-$app->route->add('/admin/profile/update', 'Admin/Profile@update', 'POST');
+		$route->add('/categories', 'Categories');
+		$route->add('/categories/add', 'Categories@add', 'POST');
+		$route->add('/categories/submit', 'Categories@submit', 'POST');
+		$route->add('/categories/edit/:id', 'Categories@edit', 'POST');
+		$route->add('/categories/save/:id', 'Categories@save', 'POST');
+		$route->add('/categories/delete/:id', 'Categories@delete', 'POST');
 
 
 
+		/*
+		|---------------------------------------------
+		|          ADMIN POSTS ROUTES
+		|---------------------------------------------
+		*/
 
-/*
-|---------------------------------------------
-|          ADMIN USERS-GROUPS ROUTES
-|---------------------------------------------
-*/
-$app->route->add('/admin/users-groups', 'Admin/UsersGroups');
-$app->route->add('/admin/users-groups/add', 'Admin/UsersGroups@add', 'POST');
-$app->route->add('/admin/users-groups/submit', 'Admin/UsersGroups@submit', 'POST');
-$app->route->add('/admin/users-groups/edit/:id', 'Admin/UsersGroups@edit', 'POST');
-$app->route->add('/admin/users-groups/save/:id', 'Admin/UsersGroups@save', 'POST');
-$app->route->add('/admin/users-groups/delete/:id', 'Admin/UsersGroups@delete', 'POST');
+		$route->add('/posts', 'Posts');
+		$route->add('/posts/add', 'Posts@add', 'POST');
+		$route->add('/posts/submit', 'Posts@submit', 'POST');
+		$route->add('/posts/edit/:id', 'Posts@edit', 'POST');
+		$route->add('/posts/save/:id', 'Posts@save', 'POST');
+		$route->add('/posts/delete/:id', 'Posts@delete', 'POST');
 
 
-/*
-|---------------------------------------------
-|          ADMIN CATEGORIES ROUTES
-|---------------------------------------------
-*/
+		/*
+		|---------------------------------------------
+		|          ADMIN COMMENTS ROUTES
+		|---------------------------------------------
+		*/
 
-$app->route->add('/admin/categories', 'Admin/Categories');
-$app->route->add('/admin/categories/add', 'Admin/Categories@add', 'POST');
-$app->route->add('/admin/categories/submit', 'Admin/Categories@submit', 'POST');
-$app->route->add('/admin/categories/edit/:id', 'Admin/Categories@edit', 'POST');
-$app->route->add('/admin/categories/save/:id', 'Admin/Categories@save', 'POST');
-$app->route->add('/admin/categories/delete/:id', 'Admin/Categories@delete', 'POST');
+		$route->add('/posts/:id/comments', 'Comments');
+		$route->add('/comments/edit/:id', 'Comments@edit');
+		$route->add('/comments/save/:id', 'Comments@save', 'POST');
+		$route->add('/comments/delete/:id', 'Comments@delete');
 
 
 
-/*
-|---------------------------------------------
-|          ADMIN POSTS ROUTES
-|---------------------------------------------
-*/
+		/*
+		|---------------------------------------------
+		|          ADMIN SETTINGS ROUTES
+		|---------------------------------------------
+		*/
 
-$app->route->add('/admin/posts', 'Admin/Posts');
-$app->route->add('/admin/posts/add', 'Admin/Posts@add', 'POST');
-$app->route->add('/admin/posts/submit', 'Admin/Posts@submit', 'POST');
-$app->route->add('/admin/posts/edit/:id', 'Admin/Posts@edit', 'POST');
-$app->route->add('/admin/posts/save/:id', 'Admin/Posts@save', 'POST');
-$app->route->add('/admin/posts/delete/:id', 'Admin/Posts@delete', 'POST');
+		$route->add('/settings', 'Settings');
+		$route->add('/settings/save', 'Settings@save', 'POST');
 
 
-/*
-|---------------------------------------------
-|          ADMIN COMMENTS ROUTES
-|---------------------------------------------
-*/
+		/*
+		|---------------------------------------------
+		|          ADMIN CONTACTS ROUTES
+		|---------------------------------------------
+		*/
 
-$app->route->add('/admin/posts/:id/comments', 'Admin/Comments');
-$app->route->add('/admin/comments/edit/:id', 'Admin/Comments@edit');
-$app->route->add('/admin/comments/save/:id', 'Admin/Comments@save', 'POST');
-$app->route->add('/admin/comments/delete/:id', 'Admin/Comments@delete');
+		$route->add('/contacts', 'Contacts');
+		$route->add('/contacts/reply/:id', 'Contacts@reply');
+		$route->add('/contacts/send/:id', 'Contacts@send', 'POST');
 
 
 
-/*
-|---------------------------------------------
-|          ADMIN SETTINGS ROUTES
-|---------------------------------------------
-*/
+		/*
+		|---------------------------------------------
+		|          ADMIN ADS ROUTES
+		|---------------------------------------------
+		*/
 
-$app->route->add('/admin/settings', 'Admin/Settings');
-$app->route->add('/admin/settings/save', 'Admin/Settings@save', 'POST');
-
-
-/*
-|---------------------------------------------
-|          ADMIN CONTACTS ROUTES
-|---------------------------------------------
-*/
-
-$app->route->add('/admin/contacts', 'Admin/Contacts');
-$app->route->add('/admin/contacts/reply/:id', 'Admin/Contacts@reply');
-$app->route->add('/admin/contacts/send/:id', 'Admin/Contacts@send', 'POST');
+		$route->add('/ads', 'Ads');
+		$route->add('/ads/add', 'Ads@add', 'POST');
+		$route->add('/ads/submit', 'Ads@submit', 'POST');
+		$route->add('/ads/edit/:id', 'Ads@edit', 'POST');
+		$route->add('/ads/save/:id', 'Ads@save', 'POST');
+		$route->add('/ads/delete/:id', 'Ads@delete', 'POST');
 
 
+		/*
+		|---------------------------------------------
+		|          LOGOUT ROUTE
+		|---------------------------------------------
+		*/
 
-/*
-|---------------------------------------------
-|          ADMIN ADS ROUTES
-|---------------------------------------------
-*/
-
-$app->route->add('/admin/ads', 'Admin/Ads');
-$app->route->add('/admin/ads/add', 'Admin/Ads@add', 'POST');
-$app->route->add('/admin/ads/submit', 'Admin/Ads@submit', 'POST');
-$app->route->add('/admin/ads/edit/:id', 'Admin/Ads@edit', 'POST');
-$app->route->add('/admin/ads/save/:id', 'Admin/Ads@save', 'POST');
-$app->route->add('/admin/ads/delete/:id', 'Admin/Ads@delete', 'POST');
+		$route->add('/logout' , 'Logout');
 
 
-/*
-|---------------------------------------------
-|          LOGOUT ROUTE
-|---------------------------------------------
-*/
+}); // End Group routes
 
-$app->route->add('/admin/logout' , 'Admin/Logout');
+
+
 
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -212,21 +232,27 @@ $app->route->add('/admin/logout' , 'Admin/Logout');
 |---------------------------------------------
 */
 
-$app->route->add('/', 'Blog/Home'); // Home Page
-$app->route->add('/category/:text/:id', 'Blog/Category');
-$app->route->add('/post/:text/:id', 'Blog/Post');
-$app->route->add('/post/:text/:id/add-comment', 'Blog/Post@addComment', 'POST');
-$app->route->add('/register', 'Blog/Register');
-$app->route->add('/register/submit', 'Blog/Register@submit', 'POST');
-$app->route->add('/login', 'Blog/Login');
-$app->route->add('/login/submit', 'Blog/Login@submit', 'POST');
-$app->route->add('/logout', 'Blog/Logout');
+$blogOptions = [
+	 'prefix' => '/',
+	 'controller' => 'Blog',
+	 'middleware' => ['Config']
+];
 
-// $app->route->add('/contact-us', 'Blog/Contact');
-// $app->route->add('/contact-us/submit', 'Blog/Contact@submit', 'POST');
-// $app->route->add('/about-us', 'Blog/About');
-// $app->route->add('/profile', 'Blog/Profile');
-// $app->route->add('/search', 'Blog/Search');
+$app->route->group($blogOptions, function ($route) {
+    
+    // Blog routes
+	$route->add('/', 'Home'); # Home Page
+	$route->add('/category/:text/:id', 'Category');
+	$route->add('/post/:text/:id', 'Post');
+	$route->add('/post/:text/:id/add-comment', 'Post@addComment', 'POST');
+	$route->add('/register', 'Register');
+	$route->add('/register/submit', 'Register@submit', 'POST');
+	$route->add('/login', 'Login');
+	$route->add('/login/submit', 'Login@submit', 'POST');
+	$route->add('/logout', 'Logout');
+
+});
+
 
 
 
@@ -236,6 +262,7 @@ $app->route->add('/logout', 'Blog/Logout');
 /*
 |---------------------------------------------
 |          NOT FOUND ROUTES / PAGES
+|          This is a common url for all scripts
 |---------------------------------------------
 */
 $app->route->add('/404', 'NotFound');

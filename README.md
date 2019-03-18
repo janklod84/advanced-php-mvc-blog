@@ -55,3 +55,27 @@ OK, here it is how this works:
 
 5. Now lets go to see how this will work.
 
+
+# 4 / Day Four: Route Class Groups
+
+Groups are very useful way to group/bundle routes that are related to each other.
+
+For example, we can group the admin route under one group
+
+the frontend can be also routed under one group
+
+Because we are lazy, we will make some extra features for those groups to let use write less.
+
+
+Url prefix
+
+For instance , we are writing our admin routes, so instead we write for each wrote "/admin/user", we will just write "/users".
+
+
+Base Controller
+
+Will work exactly like the url prefix as we won't add the Admin in begining of any controller
+
+
+Group Middleware
+We will set a middleware that will be executed for all the routes inside that group

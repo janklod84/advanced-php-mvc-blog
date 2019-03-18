@@ -54,11 +54,27 @@ class Route
 
       
       /**
-       * Calls Container
-       *
+       * Prefix url
+       * 
+       * @var string
+      */
+      private $prefix;
+
+
+      /**
+       * Group Middleware
+       * 
        * @var array
       */
-      private $calls = [];
+      private $groupMiddleware = [];
+
+
+      /**
+       * Group Base Controller
+       * 
+       * @var string
+      */
+      private $baseController;
 
 
 
@@ -70,6 +86,62 @@ class Route
       public function __construct(Application $app)
       {
            $this->app = $app;
+      }
+
+      /**
+       * Add routes to group
+       * 
+       * @param array $groupOptions
+       * @param callable $callback
+       * @return $this
+      */ 
+      public function group(array $groupOptions, callable $callback)
+      {
+           $prefix = array_get($groupOptions, 'prefix');
+           $controller = array_get($groupOptions, 'controller');
+           $middleware = (array) array_get($groupOptions, 'middleware');
+           
+           // some rules
+           // 1- group will not be executed `callback` unless, the current url must match the prefix
+           // 2- Any group except the frontend one '/' must be written before the frontend group
+           // 3 - one prefix can have many groups
+           // i.e index.php routes => will contain admin routes + frontend routes
+           // cms.php routes => will contain admin routes that are related to cms only + frontend routes for that cms.
+           
+
+           // If there is a previous prefix value
+           // it means there was a group called before the current group call
+           // this, if the prefix of the current group doesn't match the global prefix
+           // then skip this group and don't execute it
+
+
+           // Let's say
+           // first group was for the admin script '/admin'
+           // $this->prefix = /admin
+           // second group for frontend script '/'
+           // $prefix => frontend  `/` == $this->prefix `/admin` ?
+           if(($this->prefix AND $prefix != $this->prefix) 
+              OR ($prefix AND strpos($this->app->request->url(), $prefix) !== 0))
+           {
+                return $this;
+           }
+
+           
+           // current url => http://localhost/blog/
+           // current group => /admin
+
+           if($prefix)
+           {
+              $this->prefix = $prefix;
+           }
+
+           $this->baseController = $controller;
+           
+           $this->groupMiddleware = $middleware;
+
+           call_user_func($callback, $this);  # $callback($this);
+
+           return $this;
       }
 
 
@@ -96,6 +168,28 @@ class Route
       */
       public function add($url, $action , $requestMethod = 'GET', array $middleware = [])
       {
+           if($this->prefix)
+           {
+               // assuming prefix = '/'
+               // url = /
+               // $url = //
+               // so we need to remove the last trailing slash
+               $url =  rtrim($this->prefix . $url, '/');
+
+               if(! $url) { $url = '/'; }
+
+           }
+
+           if($this->baseController)
+           {
+                 $action = $this->baseController . '/' . $action;
+           }
+
+           if($this->groupMiddleware)
+           {
+               $middleware = array_merge($this->groupMiddleware, $middleware);
+           }
+
            $route = [
                'url'      => $url,
                'pattern'  => $this->generatePattern($url),
@@ -122,45 +216,7 @@ class Route
       }
 
 
-      /**
-        * Call the given callback before calling the main controller
-        *
-        * @var callable $callable
-        * @return $this
-      */
-      public function callFirst(callable $callable)
-      {
-           $this->calls['first'][] = $callable;
-           return $this;
-      }
-
-      /**
-         * Determine if there are any callbacks that will be called before
-         * calling the main controller
-         *
-         * @return bool
-       */
-       public function hasCallsFirst()
-       {
-           return ! empty($this->calls['first']);
-       }
-
-       /**
-       * Call All callbacks that will be called before
-       * calling the main controller
-       *
-       * @return bool
-       */
-       public function callFirstCalls()
-       {
-           foreach($this->calls['first'] as $callback)
-           {
-                 call_user_func($callback, $this->app);
-           }
-           
-       }
-
-
+      
       /**
        * Get Proper Route and send the output to the application class
        *

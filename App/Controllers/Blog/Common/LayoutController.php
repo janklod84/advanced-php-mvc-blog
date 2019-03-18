@@ -1,9 +1,9 @@
 <?php
-
 namespace App\Controllers\Blog\Common;
 
 use System\Controller;
 use System\View\ViewInterface;
+
 
 class LayoutController extends Controller
 {
