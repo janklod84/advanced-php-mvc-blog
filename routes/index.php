@@ -11,7 +11,6 @@
 
 $app = app();
 
-$app->view->render('test');
 
 // Why we are going to use exceptions ?
 // production => errors will be stored in error.log file
@@ -20,6 +19,8 @@ $app->view->render('test');
 
 
 # Middleware Access
+
+/*
 if (strpos($app->request->url(), '/admin') === 0)
 {
         # check if the current url started with /admin
@@ -53,32 +54,7 @@ if (strpos($app->request->url(), '/admin') === 0)
 	    });
 }
 
-
-/*
-|---------------------------------------------
-|          BLOG ROUTES http://localhost/blog/
-|---------------------------------------------
 */
-
-$app->route->add('/', 'Blog/Home'); // Home Page
-$app->route->add('/category/:text/:id', 'Blog/Category');
-$app->route->add('/post/:text/:id', 'Blog/Post');
-$app->route->add('/post/:text/:id/add-comment', 'Blog/Post@addComment', 'POST');
-$app->route->add('/register', 'Blog/Register');
-$app->route->add('/register/submit', 'Blog/Register@submit', 'POST');
-$app->route->add('/login', 'Blog/Login');
-$app->route->add('/login/submit', 'Blog/Login@submit', 'POST');
-$app->route->add('/logout', 'Blog/Logout');
-
-// $app->route->add('/contact-us', 'Blog/Contact');
-// $app->route->add('/contact-us/submit', 'Blog/Contact@submit', 'POST');
-// $app->route->add('/about-us', 'Blog/About');
-// $app->route->add('/profile', 'Blog/Profile');
-// $app->route->add('/search', 'Blog/Search');
-
-
-
-////////////////////////////////////////////////////////////////////////////////////
 
 /*
 |---------------------------------------------
@@ -86,21 +62,9 @@ $app->route->add('/logout', 'Blog/Logout');
 |---------------------------------------------
 */
 
-$app->route->add('/admin/login', 'Admin/Login');
-$app->route->add('/admin/login/submit', 'Admin/Login@submit', 'POST');
+$app->route->add('/admin/login', 'Admin/Login', 'GET', ['Admin\\Auth', 'Admin\\Config']);
+$app->route->add('/admin/login/submit', 'Admin/Login@submit', 'POST', ['Admin\\Auth', 'Admin\\Config']);
 
-
-/*
-|---------------------------------------------
-|          ADMIN LAYOUT
-|---------------------------------------------
-*/
-
-$app->share('adminLayout', function($app){
-
-    return $app->load->controller('Admin/Common/Layout');
-    
-});
 
 
 /*
@@ -109,7 +73,7 @@ $app->share('adminLayout', function($app){
 |---------------------------------------------
 */
 
-$app->route->add('/admin' , 'Admin/Dashboard');
+$app->route->add('/admin' , 'Admin/Dashboard', 'GET', ['Admin\\Auth', 'Admin\\Config']);
 $app->route->add('/admin/dashboard' , 'Admin/Dashboard');
 $app->route->add('/admin/submit' , 'Admin/Dashboard@submit', 'POST');
 
@@ -238,6 +202,35 @@ $app->route->add('/admin/ads/delete/:id', 'Admin/Ads@delete', 'POST');
 */
 
 $app->route->add('/admin/logout' , 'Admin/Logout');
+
+
+////////////////////////////////////////////////////////////////////////////////////
+
+/*
+|---------------------------------------------
+|          BLOG ROUTES http://localhost/blog/
+|---------------------------------------------
+*/
+
+$app->route->add('/', 'Blog/Home'); // Home Page
+$app->route->add('/category/:text/:id', 'Blog/Category');
+$app->route->add('/post/:text/:id', 'Blog/Post');
+$app->route->add('/post/:text/:id/add-comment', 'Blog/Post@addComment', 'POST');
+$app->route->add('/register', 'Blog/Register');
+$app->route->add('/register/submit', 'Blog/Register@submit', 'POST');
+$app->route->add('/login', 'Blog/Login');
+$app->route->add('/login/submit', 'Blog/Login@submit', 'POST');
+$app->route->add('/logout', 'Blog/Logout');
+
+// $app->route->add('/contact-us', 'Blog/Contact');
+// $app->route->add('/contact-us/submit', 'Blog/Contact@submit', 'POST');
+// $app->route->add('/about-us', 'Blog/About');
+// $app->route->add('/profile', 'Blog/Profile');
+// $app->route->add('/search', 'Blog/Search');
+
+
+
+////////////////////////////////////////////////////////////////////////////////////
 
 
 /*

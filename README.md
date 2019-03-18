@@ -1,6 +1,6 @@
 # BUILDING Advanced PHP Framework From Scratch
 
-# 1 / Day Zero: using Composer & Customer Error Handler
+# 1 / Day One: using Composer & Customer Error Handler
 
 - Using Composer For Autoloading 
 
@@ -12,7 +12,7 @@
   github whoops for ajax
 
 
-# 2 Day One: Restructuring config, routes and logic errors
+# 2 / Day Two: Restructuring config, routes and logic errors
 
 In this Part, We are going to: 
 
@@ -38,4 +38,20 @@ Using Exceptions for all types of errors
 
 
 4. Using Exceptions for all types of errors 
+
+
+
+# 3 / Day Three: Middlewares
+
+OK, here it is how this works:
+
+1. If route has a middleware, then the middleware will be executed before we call the route itself.
+
+2. If the middleware returns the NEXT flag, then we will proceed to the route action as normal.
+
+3. If The middleware doesn't return the NEXT flag, then we'll return the value that was returned from that middleware.
+
+4. If the route doesn't have a middleware, then we will proceed to that route immediately.
+
+5. Now lets go to see how this will work.
 

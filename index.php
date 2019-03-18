@@ -8,7 +8,7 @@ date_default_timezone_set('Europe/Moscow');
 */
 
 require __DIR__.'/vendor/autoload.php';
-require __DIR__.'/Version.php';
+
 
 use System\File;
 use System\Application;

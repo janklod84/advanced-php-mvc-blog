@@ -2,14 +2,25 @@
 namespace System;
 
 
+use Exception;
+
+
 /**
  * @package \System\Route
 */
 class Route
 {
 
-     
-      /**
+       
+       /**
+        * Next Flag
+        * 
+        * @const string
+        */
+        const NEXT = '__NEXT__';
+ 
+
+       /**
         * Application Object
         *
         * @var \System\Application
@@ -77,27 +88,20 @@ class Route
       /**
         * Add New Route
         *
-        * Optimise method 
-        * Create new class RouteParam($url, $action, $requestMethod = 'GET') 
-        * this class will be return $route or generate route with parameters lke this:
-        * $route = [
-             'url'      => $url,
-             'pattern'  => $this->generatePattern($url),
-             'action'   => $this->getAction($action), // target
-             'method'   => strtoupper($requestMethod),
-        * ];
         * @param string $url
         * @param string $action
         * @param string $requestMethod
+        * @param array $middleware
         * @param void
       */
-      public function add($url, $action , $requestMethod = 'GET')
+      public function add($url, $action , $requestMethod = 'GET', array $middleware = [])
       {
            $route = [
-             'url'      => $url,
-             'pattern'  => $this->generatePattern($url),
-             'action'   => $this->getAction($action), // target
-             'method'   => strtoupper($requestMethod),
+               'url'      => $url,
+               'pattern'  => $this->generatePattern($url),
+               'action'   => $this->getAction($action), // target
+               'method'   => strtoupper($requestMethod),
+               'middleware' => $middleware
            ];
            
            $this->routes[] = $route;
@@ -164,15 +168,74 @@ class Route
        */
        public function getProperRoute()
        {
+            $middlewareInterface = 'App\\Middleware\\MiddlewareInterface';
+
             foreach ($this->routes as $route)
             {
                  if($this->isMatching($route['pattern']) AND $this->isMatchingMethod($route['method']))
                  {
-                      $arguments = $this->getArgumentsFrom($route['pattern']);
-                      list($controller, $method) = explode('@', $route['action']);
                       $this->current = $route;
                       
-                      $output =  (string) $this->app->load->action($controller, $method, $arguments);
+                      // route found
+                      // we need to see if the current route has any middlewares
+                      
+                      $output = '';
+
+                      if ($route['middleware'])
+                      {
+                           // now we will loop though the middleware
+                           foreach ($route['middleware'] as $middleware)
+                           {
+                                // we need to check first if the middleware class
+                                // implements the middleware interface
+                                // $middleware value = Admin\Auth
+                                // full middleware class = App\Middleware\Admin\Auth
+                                
+                                $middlewareClass = 'App\\Middleware\\' . $middleware;
+                                // class_implements ? returns array of all interfaces that class implements
+                                
+                                if(! in_array($middlewareInterface, class_implements($middlewareClass)))
+                                {
+                                     throw new Exception(sprintf('%s must implement %s', $middleware, $middlewareInterface));
+                                     
+                                }
+
+                                $middleWareObject = new $middlewareClass;
+
+                                // we need to get the output of the handle method to check
+                                $output = $middleWareObject->handle($this->app, static::NEXT);
+
+                                if($output)
+                                {
+                                    if($output === static::NEXT)
+                                    {
+
+                                          $output = '';
+
+                                    }else{
+                                         
+                                         // it means the middleware 
+                                         // has returned another value 
+                                         // than the next flag
+                                         // so this value will be returned for the response output 
+                                         break;
+                                    }
+                                }
+                           }
+                      }
+
+                      // if there is an output value,
+                      // then we are not going to execute the route controller
+                      // otherwise, we are going to execute our route controller
+                      if($output == '')
+                      {
+                          $arguments = $this->getArgumentsFrom($route['pattern']);
+
+                          // controller@method
+                          list($controller, $method) = explode('@', $route['action']);
+                          
+                          $output =  (string) $this->app->load->action($controller, $method, $arguments);
+                      }
 
                       return $output;
                  }
